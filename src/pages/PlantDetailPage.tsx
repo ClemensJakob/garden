@@ -1,7 +1,16 @@
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { findPlantById, PLANTS } from '../domain/plants'
 import SeasonPlan from '../components/SeasonPlan'
-import type { Plant, PlantId } from '../domain/types'
+import type { Plant, PlantId, SeasonActivity, SeasonStatus } from '../domain/types'
+import { SEASON_STATUS_ORDER } from '../domain/types'
+
+/** Human-readable German label per activity status. */
+const STATUS_LABEL: Record<SeasonStatus, string> = {
+  vorziehen: 'Vorziehen',
+  aussaat: 'Aussaat',
+  pflanzen: 'Pflanzen',
+  ernte: 'Ernte',
+}
 
 interface BackState {
   /** Optional patch number the user came from (for the back link). */
@@ -88,6 +97,11 @@ export default function PlantDetailPage() {
         fromPatchNumber={state.fromPatchNumber}
       />
 
+      {/* Activities — explicit listing of which months a plant is
+          vorgezogen, gesät, gepflanzt and geerntet. A plant may have
+          any of these activities in multiple months. */}
+      <ActivitiesSection activities={plant.seasonActivities} />
+
       {/* Notes */}
       <section className="rounded border border-patch-border bg-white p-3 shadow-sm">
         <h2 className="text-[10px] font-semibold uppercase tracking-wider text-patch-text/50">
@@ -151,5 +165,61 @@ function CompanionsSection({ title, ids, emptyText, fromPatchNumber }: Companion
         </ul>
       )}
     </section>
+  )
+}
+
+/**
+ * Renders one row per `SeasonActivity` on the plant: the activity
+ * label (Vorziehen / Aussaat / Pflanzen / Ernte) followed by the
+ * months in which it takes place. Activities the plant does not
+ * have are omitted entirely.
+ *
+ * This makes the multi-month nature of each activity textually
+ * explicit — complementing the visual SeasonPlan calendar below.
+ */
+function ActivitiesSection({ activities }: { activities: readonly SeasonActivity[] }) {
+  const byStatus = new Map<SeasonStatus, SeasonActivity>()
+  for (const a of activities) byStatus.set(a.status, a)
+  const ordered = SEASON_STATUS_ORDER.flatMap((s) => {
+    const a = byStatus.get(s)
+    return a ? [a] : []
+  })
+
+  return (
+    <section className="rounded border border-patch-border bg-white p-3 shadow-sm">
+      <h2 className="text-[10px] font-semibold uppercase tracking-wider text-patch-text/50">
+        Anbau-Zeitplan
+      </h2>
+      {ordered.length === 0 ? (
+        <p className="mt-1 text-xs text-patch-text/60">Keine Anbauzeiten hinterlegt.</p>
+      ) : (
+        <dl className="mt-1 grid grid-cols-[6rem_1fr] items-center gap-y-1 text-sm">
+          {ordered.map((a) => (
+            <ActivityRow key={a.status} activity={a} />
+          ))}
+        </dl>
+      )}
+    </section>
+  )
+}
+
+function ActivityRow({ activity }: { activity: SeasonActivity }) {
+  return (
+    <>
+      <dt className="text-patch-text/60">{STATUS_LABEL[activity.status]}</dt>
+      <dd
+        className="flex flex-wrap justify-end gap-1"
+        aria-label={`${STATUS_LABEL[activity.status]}: ${activity.months.join(', ')}`}
+      >
+        {activity.months.map((m) => (
+          <span
+            key={m}
+            className="rounded bg-patch-border/40 px-1.5 py-0.5 text-xs font-semibold text-patch-text"
+          >
+            {m}
+          </span>
+        ))}
+      </dd>
+    </>
   )
 }

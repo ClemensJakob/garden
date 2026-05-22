@@ -1,5 +1,6 @@
 import type { Plant, SeasonStatus } from '../domain/types'
-import { SEASON_MONTHS } from '../domain/types'
+import { SEASON_MONTHS, SEASON_STATUS_ORDER } from '../domain/types'
+import { toSeasonPlan } from '../domain/plants'
 
 interface SeasonPlanProps {
   plants: readonly Plant[]
@@ -54,8 +55,7 @@ function MonthCell({
   }
 
   // Stable status order so visual layout is predictable across plants.
-  const order: readonly SeasonStatus[] = ['vorziehen', 'aussaat', 'pflanzen', 'ernte']
-  const active = order.filter((s) => statuses.includes(s))
+  const active = SEASON_STATUS_ORDER.filter((s) => statuses.includes(s))
 
   return (
     <span
@@ -104,32 +104,35 @@ export default function SeasonPlan({ plants }: SeasonPlanProps) {
       </div>
 
       {/* One row per plant */}
-      {plants.map((plant) => (
-        <div
-          key={plant.id}
-          className="mt-2 grid items-center gap-1"
-          style={{ gridTemplateColumns: `5rem repeat(${SEASON_MONTHS.length}, minmax(0, 1fr))` }}
-        >
-          <span className="truncate text-sm font-semibold text-gray-900">
-            {plant.name}
-          </span>
-          {SEASON_MONTHS.map((month, i) => {
-            const statuses = plant.seasonPlan[month]
-            const label =
-              statuses.length === 0
-                ? `${plant.name} ${month}: idle`
-                : `${plant.name} ${month}: ${statuses.join(', ')}`
-            return (
-              <MonthCell
-                key={month}
-                statuses={statuses}
-                isCurrent={i === currentIdx}
-                ariaLabel={label}
-              />
-            )
-          })}
-        </div>
-      ))}
+      {plants.map((plant) => {
+        const plan = toSeasonPlan(plant.seasonActivities)
+        return (
+          <div
+            key={plant.id}
+            className="mt-2 grid items-center gap-1"
+            style={{ gridTemplateColumns: `5rem repeat(${SEASON_MONTHS.length}, minmax(0, 1fr))` }}
+          >
+            <span className="truncate text-sm font-semibold text-gray-900">
+              {plant.name}
+            </span>
+            {SEASON_MONTHS.map((month, i) => {
+              const statuses = plan[month]
+              const label =
+                statuses.length === 0
+                  ? `${plant.name} ${month}: idle`
+                  : `${plant.name} ${month}: ${statuses.join(', ')}`
+              return (
+                <MonthCell
+                  key={month}
+                  statuses={statuses}
+                  isCurrent={i === currentIdx}
+                  ariaLabel={label}
+                />
+              )
+            })}
+          </div>
+        )
+      })}
 
       {/* Legend */}
       <div className="mt-3 flex flex-wrap justify-end gap-3 text-[11px] text-gray-500">

@@ -1,5 +1,12 @@
-import type { Plant, PlantId, SeasonMonth, SeasonPlan, SeasonStatus } from './types'
-import { SEASON_MONTHS } from './types'
+import type {
+  Plant,
+  PlantId,
+  SeasonActivity,
+  SeasonMonth,
+  SeasonPlan,
+  SeasonStatus,
+} from './types'
+import { SEASON_MONTHS, SEASON_STATUS_ORDER } from './types'
 
 /**
  * A single status or a list of statuses for a given month. The helper
@@ -8,23 +15,72 @@ import { SEASON_MONTHS } from './types'
 type MonthInput = SeasonStatus | readonly SeasonStatus[]
 
 /**
- * Build a SeasonPlan from a partial map. Any month not specified
- * defaults to an empty list (idle). A month may carry multiple
- * statuses simultaneously — useful e.g. when an early ernte overlaps
- * with a late aussaat.
+ * Build a list of `SeasonActivity` value objects from a partial
+ * month-keyed map (the shape used in the plant catalog for legibility).
+ *
+ * The catalog form is "what happens this month?" — convenient to write.
+ * The domain form is "for each activity, in which months does it
+ * happen?" — which is what we want first-class on the Plant aggregate
+ * so that "Pflanzen können in mehreren Monaten vorgezogen, gesät,
+ * gepflanzt und geerntet werden" is explicitly modelled.
+ *
+ * Months are sorted in calendar order (MÄR → NOV). Activities are
+ * sorted in the canonical status order (Vorziehen → Aussaat →
+ * Pflanzen → Ernte). Activities with no months are dropped.
  */
-function seasonPlan(partial: Partial<Record<SeasonMonth, MonthInput>>): SeasonPlan {
-  return SEASON_MONTHS.reduce((acc, month) => {
+function seasonActivities(
+  partial: Partial<Record<SeasonMonth, MonthInput>>
+): readonly SeasonActivity[] {
+  const monthsByStatus = new Map<SeasonStatus, SeasonMonth[]>()
+
+  for (const month of SEASON_MONTHS) {
     const value = partial[month]
-    if (value === undefined) {
-      acc[month] = []
-    } else if (Array.isArray(value)) {
-      acc[month] = value as readonly SeasonStatus[]
-    } else {
-      acc[month] = [value as SeasonStatus]
+    if (value === undefined) continue
+    const statuses = Array.isArray(value)
+      ? (value as readonly SeasonStatus[])
+      : [value as SeasonStatus]
+    for (const status of statuses) {
+      const existing = monthsByStatus.get(status)
+      if (existing) {
+        existing.push(month)
+      } else {
+        monthsByStatus.set(status, [month])
+      }
     }
-    return acc
-  }, {} as Record<SeasonMonth, readonly SeasonStatus[]>) as SeasonPlan
+  }
+
+  return SEASON_STATUS_ORDER.flatMap((status) => {
+    const months = monthsByStatus.get(status)
+    return months && months.length > 0 ? [{ status, months }] : []
+  })
+}
+
+/**
+ * Derive the per-month presentation view from a Plant's canonical
+ * `seasonActivities`. Used by the SeasonPlan calendar component.
+ *
+ * Within a single month, statuses are emitted in `SEASON_STATUS_ORDER`
+ * so the visual layout is stable across plants.
+ */
+export function toSeasonPlan(activities: readonly SeasonActivity[]): SeasonPlan {
+  const plan = SEASON_MONTHS.reduce(
+    (acc, month) => {
+      acc[month] = []
+      return acc
+    },
+    {} as Record<SeasonMonth, SeasonStatus[]>
+  )
+
+  for (const status of SEASON_STATUS_ORDER) {
+    for (const activity of activities) {
+      if (activity.status !== status) continue
+      for (const month of activity.months) {
+        plan[month].push(status)
+      }
+    }
+  }
+
+  return plan as SeasonPlan
 }
 
 /**
@@ -40,7 +96,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'tomaten',
     name: 'Tomaten',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -60,7 +116,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'zucchini',
     name: 'Zucchini',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -77,7 +133,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'bohnen',
     name: 'Bohnen',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MAI: 'aussaat',
       JUL: 'ernte',
       AUG: 'ernte',
@@ -93,7 +149,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'karotten',
     name: 'Karotten',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       JUL: 'ernte',
@@ -114,7 +170,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'pfluecksalat',
     name: 'Pflücksalat',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       MAI: 'ernte',
@@ -132,7 +188,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'gruenkohl',
     name: 'Grünkohl',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       OKT: 'ernte',
@@ -148,7 +204,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'mangold',
     name: 'Mangold',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -166,7 +222,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'salat',
     name: 'Salat',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       MAI: 'ernte',
@@ -183,7 +239,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'rote-bete',
     name: 'Rote Bete',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       JUN: 'ernte',
@@ -202,7 +258,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'erbsen',
     name: 'Erbsen',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       JUN: 'ernte',
@@ -218,7 +274,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'radieschen',
     name: 'Radieschen',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       MAI: 'ernte',
@@ -234,7 +290,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'lauch',
     name: 'Lauch',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       SEP: 'ernte',
@@ -252,7 +308,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'hokkaido',
     name: 'Hokkaido',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       SEP: 'ernte',
@@ -268,7 +324,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'gurken',
     name: 'Gurken',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -286,7 +342,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'himbeeren',
     name: 'Himbeeren',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       JUN: 'ernte',
       JUL: 'ernte',
       AUG: 'ernte',
@@ -306,7 +362,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'artischoke',
     name: 'Artischocke',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -323,7 +379,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'yas-salat',
     name: 'Yas-Salat',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       MAI: 'ernte',
@@ -340,7 +396,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'aubergine',
     name: 'Aubergine',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -357,7 +413,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'paprika',
     name: 'Paprika',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -375,7 +431,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'zinnien',
     name: 'Zinnien',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -392,7 +448,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'kohlrabi',
     name: 'Kohlrabi',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       APR: 'pflanzen',
       JUN: 'ernte',
@@ -408,7 +464,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'senfsaat',
     name: 'Senfsaat',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       MAI: 'ernte',
@@ -424,7 +480,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'tagetes',
     name: 'Tagetes',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -441,7 +497,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'pimentos',
     name: 'Pimentos',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -458,7 +514,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'erdbeeren',
     name: 'Erdbeeren',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MAI: 'ernte',
       JUN: 'ernte',
       JUL: 'ernte',
@@ -473,7 +529,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'physalis',
     name: 'Physalis',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
       AUG: 'ernte',
@@ -490,7 +546,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'zuckererbsen',
     name: 'Zuckererbsen',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       JUN: 'ernte',
@@ -506,7 +562,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'rucola',
     name: 'Rucola',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
       MAI: 'ernte',
@@ -524,7 +580,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'edamame',
     name: 'Edamame',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MAI: 'aussaat',
       AUG: 'ernte',
       SEP: 'ernte',
@@ -539,7 +595,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'kartoffeln-fruehling',
     name: 'Kartoffeln (Frühling)',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'pflanzen',
       APR: 'pflanzen',
       JUN: 'ernte',
@@ -555,7 +611,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'schwarzkohl-herbst',
     name: 'Schwarzkohl (Herbst)',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MAI: 'vorziehen',
       JUL: 'pflanzen',
       OKT: 'ernte',
@@ -571,7 +627,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'gruenkohl-herbst',
     name: 'Grünkohl (Herbst)',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MAI: 'vorziehen',
       JUL: 'pflanzen',
       OKT: 'ernte',
@@ -587,7 +643,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'blumenstauden',
     name: 'Blumenstauden',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       JUN: 'ernte',
       JUL: 'ernte',
       AUG: 'ernte',
@@ -603,7 +659,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'kuerbis',
     name: 'Kürbis',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
       SEP: 'ernte',
@@ -619,7 +675,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'weisskohl',
     name: 'Weißkohl',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
       AUG: 'ernte',
@@ -636,7 +692,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'zwiebel',
     name: 'Zwiebel',
     feeder: 'Mittelzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'pflanzen',
       APR: 'pflanzen',
       JUL: 'ernte',
@@ -652,7 +708,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'rhabarber',
     name: 'Rhabarber',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       APR: 'ernte',
       MAI: 'ernte',
       JUN: 'ernte',
@@ -667,7 +723,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'spitzkohl',
     name: 'Spitzkohl',
     feeder: 'Starkzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
       JUL: 'ernte',
@@ -683,7 +739,7 @@ export const PLANTS: readonly Plant[] = [
     id: 'stangenbohnen',
     name: 'Stangenbohnen',
     feeder: 'Schwachzehrer',
-    seasonPlan: seasonPlan({
+    seasonActivities: seasonActivities({
       MAI: 'aussaat',
       JUL: 'ernte',
       AUG: 'ernte',

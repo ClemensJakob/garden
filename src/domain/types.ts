@@ -57,10 +57,40 @@ export const SEASON_MONTHS: readonly SeasonMonth[] = [
  */
 export type SeasonStatus = 'vorziehen' | 'aussaat' | 'pflanzen' | 'ernte'
 
+/** Stable display order for activities — used by the UI legend and listings. */
+export const SEASON_STATUS_ORDER: readonly SeasonStatus[] = [
+  'vorziehen',
+  'aussaat',
+  'pflanzen',
+  'ernte',
+] as const
+
+/**
+ * A SeasonActivity is a value object on a Plant describing one
+ * recurring activity (vorziehen, aussaat, pflanzen or ernte) and
+ * the months in which it takes place.
+ *
+ * This makes "a plant can be vorgezogen / gesät / gepflanzt /
+ * geerntet across multiple months" first-class in the domain —
+ * rather than spreading the concept across per-month buckets.
+ *
+ * Invariants (enforced by `seasonActivity` factory in plants.ts):
+ *   - `months` is non-empty
+ *   - `months` contains no duplicates
+ *   - `months` is sorted in calendar order (MÄR → NOV)
+ */
+export interface SeasonActivity {
+  readonly status: SeasonStatus
+  readonly months: readonly SeasonMonth[]
+}
+
 /**
  * Per-month list of statuses. An empty array means the month is idle.
  * The renderer is responsible for splitting a month cell visually when
  * multiple statuses are present.
+ *
+ * This is a derived, presentation-friendly view of a Plant's
+ * `seasonActivities` — see `toSeasonPlan` in plants.ts.
  */
 export type SeasonPlan = Record<SeasonMonth, readonly SeasonStatus[]>
 
@@ -68,7 +98,13 @@ export interface Plant {
   readonly id: PlantId
   readonly name: string
   readonly feeder: Feeder
-  readonly seasonPlan: SeasonPlan
+  /**
+   * Canonical season model: which activities the plant requires and
+   * in which months. A plant may have at most one activity per
+   * SeasonStatus (e.g. exactly one "ernte" entry listing all harvest
+   * months), but is free to combine all four statuses.
+   */
+  readonly seasonActivities: readonly SeasonActivity[]
   /** Distance between rows, in centimetres. */
   readonly rowSpacing: number
   /** Distance between plants within a row, in centimetres. */
