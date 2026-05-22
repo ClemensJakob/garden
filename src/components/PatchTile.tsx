@@ -22,27 +22,6 @@ function variantClasses(variant: PatchVariant): string {
     }
 }
 
-/**
- * Display text for a patch tile. We prefer to show the plant currently
- * bedded; for compound beddings we use a short combined label
- * (e.g. "Boh · Kar"). Special-variant patches always show their own
- * label (Kompost, Kräuter, Himbeeren).
- */
-function tileText(patch: Patch): string {
-    if (patch.variant !== 'default' && patch.variant !== 'beere') {
-        return patch.label
-    }
-    if (patch.bedding.length === 0) {
-        return patch.label
-    }
-    if (patch.bedding.length === 1) {
-        return findPlantById(patch.bedding[0].plantId)?.name ?? patch.label
-    }
-    return patch.bedding
-        .map((b) => findPlantById(b.plantId)?.name.slice(0, 3) ?? '')
-        .join(' · ')
-}
-
 export default function PatchTile({patch, className}: PatchTileProps) {
     const showBadge = patch.variant === 'default' || patch.variant === 'beere'
     return (
