@@ -4,9 +4,51 @@ export default {
   theme: {
     borderRadius: {
       none: '0',
+      sm: '0.125rem',
+      DEFAULT: '0.25rem',
+      md: '0.375rem',
+      lg: '0.5rem',
       full: '9999px',
     },
     extend: {
+      colors: {
+        // Garden background — soft sage green
+        garden: {
+          bg: '#d4e6c3',        // soft green lawn
+          path: '#c8b99a',      // sandy path between beds
+        },
+        // Patch (Beet) — warm earthy tones
+        patch: {
+          DEFAULT: '#e8d5b0',   // light warm brown / sandy soil
+          border: '#c4a97a',    // medium brown border
+          text: '#4a3728',      // dark brown text
+          hover: '#dfc89a',     // slightly darker on hover
+        },
+        // Kompost — dark rich earth
+        kompost: {
+          bg: '#2d1f0e',
+          border: '#1a1108',
+          text: '#f5e6c8',
+        },
+        // Kräuter — soft herb green
+        kraeuter: {
+          bg: '#e8f5e0',
+          border: '#7db87a',
+          text: '#2d5a27',
+        },
+        // Beere — muted berry purple
+        beere: {
+          bg: '#e8d5e8',
+          border: '#9b6b9b',
+          text: '#4a1f4a',
+        },
+        // Storage units (Schuppen, Kiste) — weathered wood
+        storage: {
+          bg: '#c9b08a',
+          border: '#a08060',
+          text: '#3d2b1a',
+        },
+      },
       // Tailwind's default `grid-row-start` utilities only go up to
       // `row-start-7`, and `row-span` only up to `row-span-6`.
       // The garden layout uses a 22-row grid, so we extend both

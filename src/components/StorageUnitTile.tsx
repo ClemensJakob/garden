@@ -20,7 +20,7 @@ export default function StorageUnitTile({ unit, className = '' }: StorageUnitTil
   return (
     <Link
       to={`/storage/${unit.id}`}
-      className={`flex items-center justify-center border border-gray-300 bg-gray-300 px-3 py-4 text-center text-sm font-semibold text-gray-800 shadow-sm transition-shadow hover:shadow-md ${className}`}
+      className={`flex items-center justify-center border border-storage-border bg-storage-bg px-3 py-4 text-center text-sm text-storage-text shadow-sm transition-shadow hover:shadow-md ${className}`}
       aria-label={unit.label}
     >
       {unit.label}

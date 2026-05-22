@@ -11,38 +11,47 @@ interface PatchTileProps {
 function variantClasses(variant: PatchVariant): string {
     switch (variant) {
         case 'kompost':
-            return 'bg-black text-white border-black'
+            return 'bg-kompost-bg text-kompost-text border-kompost-border'
         case 'kraeuter':
-            return 'bg-gray-100 text-gray-800 border-2 border-dashed border-gray-400 rounded-full'
+            return 'bg-kraeuter-bg text-kraeuter-text border-2 border-dashed border-kraeuter-border rounded-full'
         case 'beere':
-            return 'bg-gray-300 text-gray-800 border-gray-300'
+            return 'bg-beere-bg text-beere-text border-beere-border'
         case 'default':
         default:
-            return 'bg-white text-gray-900 border-gray-200'
+            return 'bg-patch border-patch-border text-patch-text hover:bg-patch-hover'
     }
 }
 
 export default function PatchTile({patch, className}: PatchTileProps) {
-    const showBadge = patch.variant === 'default' || patch.variant === 'beere'
+    const isSpecial = patch.variant !== 'default'
+    const showBadge = !isSpecial
     return (
         <Link
             to={`/patches/${patch.number}`}
             className={`relative flex items-center justify-center border text-center text-xs shadow-sm transition-shadow hover:shadow-md ${variantClasses(patch.variant)} ${className}`}
             aria-label={`${patch.label} (Beet ${patch.number})`}
         >
-
-            
             {showBadge && (
                 <span
-                    className="absolute left-1 top-0 text-[10px] font-normal text-gray-400"
+                    className="absolute left-1 top-0 text-[10px] font-normal text-patch-border"
                     aria-hidden="true"
                 >
-          {patch.number}
-        </span>
+                    {patch.number}
+                </span>
             )}
-            <div className="flex flex-col">{patch.bedding
-                .map((b) => <span>{findPlantById(b.plantId)?.name}</span>)
-            }</div>
+            {isSpecial ? (
+                <span className="font-medium">{patch.label}</span>
+            ) : (
+                <div className="flex flex-col gap-0.5">
+                    {patch.bedding.length === 0 ? (
+                        <span className="text-patch-border/60">{patch.label}</span>
+                    ) : (
+                        patch.bedding.map((b) => (
+                            <span key={b.plantId}>{findPlantById(b.plantId)?.name}</span>
+                        ))
+                    )}
+                </div>
+            )}
         </Link>
     )
 }
