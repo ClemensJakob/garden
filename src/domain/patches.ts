@@ -110,7 +110,7 @@ export const PATCHES: readonly Patch[] = [
   },
   {
     number: 17,
-    label: 'Himbeeren',
+    label: 'Beeren',
     variant: 'beere',
     bedding: [{ plantId: 'himbeeren' }],
   },
