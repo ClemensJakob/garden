@@ -58,12 +58,12 @@ export default function PatchTile({ patch, className = '' }: PatchTileProps) {
   return (
     <Link
       to={`/patches/${patch.number}`}
-      className={`relative flex items-center justify-center border px-3 py-4 text-center text-sm font-semibold shadow-sm transition-shadow hover:shadow-md ${variantClasses(patch.variant)} ${className}`}
+      className={`relative flex items-center justify-center border text-center text-xs shadow-sm transition-shadow hover:shadow-md ${variantClasses(patch.variant)} ${className}`}
       aria-label={`${patch.label} (Beet ${patch.number})`}
     >
       {showBadge && (
         <span
-          className="absolute left-2 top-2 text-[10px] font-normal text-gray-400"
+          className="absolute left-1 top-0 text-[10px] font-normal text-gray-400"
           aria-hidden="true"
         >
           {patch.number}
