@@ -63,6 +63,23 @@ export default {
           border: '#a08060',
           text: '#3d2b1a',
         },
+        // Plant accent palette — each AccentColor token maps to a soft
+        // tint (used as patch background overlay) and a deeper shade
+        // (used for the patch border / icon halo). Kept muted so the
+        // garden still reads as warm soil, not a candy box.
+        accent: {
+          tomato:     { bg: '#f4d4cc', border: '#c97a64' },
+          pumpkin:    { bg: '#f4dcb6', border: '#d49250' },
+          leaf:       { bg: '#d8e8c4', border: '#7da653' },
+          pea:        { bg: '#dfecc4', border: '#9bb35a' },
+          carrot:     { bg: '#f5dab2', border: '#d6904a' },
+          beet:       { bg: '#e6c8d4', border: '#a85e7a' },
+          onion:      { bg: '#e6dfd0', border: '#9c8f6e' },
+          lettuce:    { bg: '#e3ebbf', border: '#a3b85a' },
+          strawberry: { bg: '#f4cdd5', border: '#c87189' },
+          rhubarb:    { bg: '#eecdcd', border: '#bb6a72' },
+          bloom:      { bg: '#eed1e1', border: '#b277a0' },
+        },
       },
       // Tailwind's default `grid-row-start` utilities only go up to
       // `row-start-7`, and `row-span` only up to `row-span-6`.

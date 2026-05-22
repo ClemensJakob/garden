@@ -45,6 +45,29 @@ describe('MainPage', () => {
       '/storage/schuppen'
     )
   })
+
+  it("tints a bed with its lead plant's accent color (e.g. Kürbis → pumpkin)", () => {
+    // Beet 11 = Kürbis only → bed should carry the pumpkin accent class.
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+    const kuerbisBed = screen.getByRole('link', { name: /Beet 11/ })
+    expect(kuerbisBed.className).toMatch(/accent-pumpkin/)
+  })
+
+  it('shows the plant icon next to its name when one is defined', () => {
+    // Beet 11 = Kürbis (icon: 🎃)
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+    const kuerbisBed = screen.getByRole('link', { name: /Beet 11/ })
+    expect(kuerbisBed.textContent).toContain('🎃')
+    expect(kuerbisBed.textContent).toContain('Kürbis')
+  })
 })
 
 describe('DetailPage', () => {

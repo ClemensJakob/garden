@@ -1,4 +1,6 @@
 import type {
+  AccentColor,
+  Bedding,
   Plant,
   PlantId,
   SeasonActivity,
@@ -6,7 +8,7 @@ import type {
   SeasonPlan,
   SeasonStatus,
 } from './types'
-import { SEASON_MONTHS, SEASON_STATUS_ORDER } from './types'
+import { plantAccent, SEASON_MONTHS, SEASON_STATUS_ORDER } from './types'
 
 /**
  * A single status or a list of statuses for a given month. The helper
@@ -96,6 +98,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'tomaten',
     name: 'Tomaten',
     feeder: 'Starkzehrer',
+    family: 'nachtschatten',
+    icon: '🍅',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       APR: 'vorziehen',
@@ -116,6 +120,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'zucchini',
     name: 'Zucchini',
     feeder: 'Starkzehrer',
+    family: 'kuerbisgewaechs',
+    icon: '🥒',
+    accentColor: 'leaf',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -133,6 +140,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'bohnen',
     name: 'Bohnen',
     feeder: 'Schwachzehrer',
+    family: 'huelsenfruechtler',
+    icon: '🫛',
     seasonActivities: seasonActivities({
       MAI: 'aussaat',
       JUL: 'ernte',
@@ -149,6 +158,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'karotten',
     name: 'Karotten',
     feeder: 'Mittelzehrer',
+    family: 'doldenbluetler',
+    icon: '🥕',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -170,6 +181,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'pfluecksalat',
     name: 'Pflücksalat',
     feeder: 'Schwachzehrer',
+    family: 'korbbluetler',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -188,6 +201,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'gruenkohl',
     name: 'Grünkohl',
     feeder: 'Starkzehrer',
+    family: 'kreuzbluetler',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -204,6 +219,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'mangold',
     name: 'Mangold',
     feeder: 'Mittelzehrer',
+    family: 'gaensefussgewaechs',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -222,6 +239,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'salat',
     name: 'Salat',
     feeder: 'Schwachzehrer',
+    family: 'korbbluetler',
+    icon: '🥗',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -239,6 +258,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'rote-bete',
     name: 'Rote Bete',
     feeder: 'Mittelzehrer',
+    family: 'gaensefussgewaechs',
+    icon: '🟣',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -258,6 +279,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'erbsen',
     name: 'Erbsen',
     feeder: 'Schwachzehrer',
+    family: 'huelsenfruechtler',
+    icon: '🟢',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -274,6 +297,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'radieschen',
     name: 'Radieschen',
     feeder: 'Schwachzehrer',
+    family: 'kreuzbluetler',
+    icon: '🔴',
+    accentColor: 'tomato',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -290,6 +316,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'lauch',
     name: 'Lauch',
     feeder: 'Mittelzehrer',
+    family: 'lauchgewaechs',
+    icon: '🧅',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -308,6 +336,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'hokkaido',
     name: 'Hokkaido',
     feeder: 'Starkzehrer',
+    family: 'kuerbisgewaechs',
+    icon: '🎃',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -324,6 +354,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'gurken',
     name: 'Gurken',
     feeder: 'Starkzehrer',
+    family: 'kuerbisgewaechs',
+    icon: '🥒',
+    accentColor: 'leaf',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -342,6 +375,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'himbeeren',
     name: 'Himbeeren',
     feeder: 'Mittelzehrer',
+    family: 'rosengewaechs',
+    icon: '🫐',
     seasonActivities: seasonActivities({
       JUN: 'ernte',
       JUL: 'ernte',
@@ -362,6 +397,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'artischoke',
     name: 'Artischocke',
     feeder: 'Starkzehrer',
+    family: 'korbbluetler',
+    icon: '🌿',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
@@ -379,6 +416,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'yas-salat',
     name: 'Yas-Salat',
     feeder: 'Schwachzehrer',
+    family: 'korbbluetler',
+    icon: '🥗',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -396,6 +435,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'aubergine',
     name: 'Aubergine',
     feeder: 'Starkzehrer',
+    family: 'nachtschatten',
+    icon: '🍆',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
@@ -413,6 +454,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'paprika',
     name: 'Paprika',
     feeder: 'Starkzehrer',
+    family: 'nachtschatten',
+    icon: '🫑',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
@@ -431,6 +474,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'zinnien',
     name: 'Zinnien',
     feeder: 'Schwachzehrer',
+    family: 'korbbluetler',
+    icon: '🌸',
+    accentColor: 'bloom',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -448,6 +494,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'kohlrabi',
     name: 'Kohlrabi',
     feeder: 'Mittelzehrer',
+    family: 'kreuzbluetler',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       APR: 'pflanzen',
@@ -464,6 +512,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'senfsaat',
     name: 'Senfsaat',
     feeder: 'Schwachzehrer',
+    family: 'kreuzbluetler',
+    icon: '🌱',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -480,6 +530,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'tagetes',
     name: 'Tagetes',
     feeder: 'Schwachzehrer',
+    family: 'korbbluetler',
+    icon: '🌼',
+    accentColor: 'pumpkin',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -497,6 +550,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'pimentos',
     name: 'Pimentos',
     feeder: 'Starkzehrer',
+    family: 'nachtschatten',
+    icon: '🌶️',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
@@ -514,6 +569,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'erdbeeren',
     name: 'Erdbeeren',
     feeder: 'Mittelzehrer',
+    family: 'rosengewaechs',
+    icon: '🍓',
+    accentColor: 'strawberry',
     seasonActivities: seasonActivities({
       MAI: 'ernte',
       JUN: 'ernte',
@@ -529,6 +587,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'physalis',
     name: 'Physalis',
     feeder: 'Mittelzehrer',
+    family: 'nachtschatten',
+    icon: '🟡',
+    accentColor: 'pumpkin',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
@@ -546,6 +607,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'zuckererbsen',
     name: 'Zuckererbsen',
     feeder: 'Schwachzehrer',
+    family: 'huelsenfruechtler',
+    icon: '🟢',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -562,6 +625,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'rucola',
     name: 'Rucola',
     feeder: 'Schwachzehrer',
+    family: 'kreuzbluetler',
+    icon: '🌿',
     seasonActivities: seasonActivities({
       MÄR: 'aussaat',
       APR: 'aussaat',
@@ -580,6 +645,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'edamame',
     name: 'Edamame',
     feeder: 'Schwachzehrer',
+    family: 'huelsenfruechtler',
+    icon: '🟢',
     seasonActivities: seasonActivities({
       MAI: 'aussaat',
       AUG: 'ernte',
@@ -595,6 +662,9 @@ export const PLANTS: readonly Plant[] = [
     id: 'kartoffeln-fruehling',
     name: 'Kartoffeln (Frühling)',
     feeder: 'Starkzehrer',
+    family: 'nachtschatten',
+    icon: '🥔',
+    accentColor: 'leaf',
     seasonActivities: seasonActivities({
       MÄR: 'pflanzen',
       APR: 'pflanzen',
@@ -611,6 +681,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'schwarzkohl-herbst',
     name: 'Schwarzkohl (Herbst)',
     feeder: 'Starkzehrer',
+    family: 'kreuzbluetler',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       MAI: 'vorziehen',
       JUL: 'pflanzen',
@@ -627,6 +699,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'gruenkohl-herbst',
     name: 'Grünkohl (Herbst)',
     feeder: 'Starkzehrer',
+    family: 'kreuzbluetler',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       MAI: 'vorziehen',
       JUL: 'pflanzen',
@@ -643,6 +717,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'blumenstauden',
     name: 'Blumenstauden',
     feeder: 'Schwachzehrer',
+    family: 'kraut',
+    icon: '🌷',
     seasonActivities: seasonActivities({
       JUN: 'ernte',
       JUL: 'ernte',
@@ -659,6 +735,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'kuerbis',
     name: 'Kürbis',
     feeder: 'Starkzehrer',
+    family: 'kuerbisgewaechs',
+    icon: '🎃',
     seasonActivities: seasonActivities({
       APR: 'vorziehen',
       MAI: 'pflanzen',
@@ -675,6 +753,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'weisskohl',
     name: 'Weißkohl',
     feeder: 'Starkzehrer',
+    family: 'kreuzbluetler',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
@@ -692,6 +772,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'zwiebel',
     name: 'Zwiebel',
     feeder: 'Mittelzehrer',
+    family: 'lauchgewaechs',
+    icon: '🧅',
     seasonActivities: seasonActivities({
       MÄR: 'pflanzen',
       APR: 'pflanzen',
@@ -708,6 +790,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'rhabarber',
     name: 'Rhabarber',
     feeder: 'Starkzehrer',
+    family: 'knoeterich',
+    icon: '🌱',
     seasonActivities: seasonActivities({
       APR: 'ernte',
       MAI: 'ernte',
@@ -723,6 +807,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'spitzkohl',
     name: 'Spitzkohl',
     feeder: 'Starkzehrer',
+    family: 'kreuzbluetler',
+    icon: '🥬',
     seasonActivities: seasonActivities({
       MÄR: 'vorziehen',
       MAI: 'pflanzen',
@@ -739,6 +825,8 @@ export const PLANTS: readonly Plant[] = [
     id: 'stangenbohnen',
     name: 'Stangenbohnen',
     feeder: 'Schwachzehrer',
+    family: 'huelsenfruechtler',
+    icon: '🫛',
     seasonActivities: seasonActivities({
       MAI: 'aussaat',
       JUL: 'ernte',
@@ -756,4 +844,23 @@ export const PLANTS: readonly Plant[] = [
 /** Look up a plant by its id. Returns undefined if no such plant exists. */
 export function findPlantById(id: PlantId): Plant | undefined {
   return PLANTS.find((p) => p.id === id)
+}
+
+/**
+ * Derive the dominant accent color of a Patch from its bedding.
+ *
+ * Rule: the first plant in the bedding wins. Empty beds and beds whose
+ * first plant cannot be resolved have no accent (returns undefined),
+ * letting the renderer fall back to the neutral soil look.
+ *
+ * The "first plant wins" rule keeps the visual stable while editing —
+ * reordering bedding deliberately changes the bed's identity, which
+ * is the right mental model for a gardener thinking about lead crops.
+ */
+export function patchAccent(bedding: readonly Bedding[]): AccentColor | undefined {
+  const lead = bedding[0]
+  if (!lead) return undefined
+  const plant = findPlantById(lead.plantId)
+  if (!plant) return undefined
+  return plantAccent(plant)
 }
