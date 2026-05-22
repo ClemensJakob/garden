@@ -6,9 +6,9 @@ import GardenLayout from '../components/GardenLayout'
  */
 export default function MainPage() {
   return (
-    <main className="flex flex-col justify-center items-center gap-6 bg-gray-50 p-2 min-h-screen">
-      <h1 className="sr-only">Garden</h1>
+    // <main className="flex flex-col justify-center items-center gap-6 bg-gray-50 min-h-screen">
+    //   <h1 className="sr-only">Garden</h1>
       <GardenLayout />
-    </main>
+    // </main>
   )
 }
