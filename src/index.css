@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /*
+   * Mobile full-height behavior:
+   *
+   * Mobile browsers (e.g. Chrome on Android) only collapse the address
+   * bar when the page is *scrollable*. We make the body a tiny bit
+   * taller than the small viewport (svh) so an initial upward scroll
+   * collapses the URL bar. Once collapsed, 100dvh expands and the
+   * GardenLayout fills the entire visible viewport.
+   *
+   * Painting the body in the same green as the layout avoids any
+   * white flash above/below while the URL bar animates in/out.
+   */
+  html {
+    height: 100%;
+    background-color: #d4e6c3; /* tailwind: garden.bg */
+  }
+
+  body {
+    /* Ensures the page is scrollable enough to trigger URL-bar collapse,
+       but never produces visible blank space once collapsed. */
+    min-height: calc(100svh + 1px);
+    background-color: #d4e6c3; /* tailwind: garden.bg */
+    overscroll-behavior-y: none;
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+}

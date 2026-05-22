@@ -19,7 +19,7 @@ function patch(n: number) {
 export default function GardenLayout() {
   return (
     <div
-      className="grid w-full h-screen max-w-md gap-2 grid-cols-12 grid-rows-[repeat(22,minmax(0,1fr))] bg-garden-bg p-2"
+      className="grid w-full h-[100dvh] max-w-md gap-2 grid-cols-12 grid-rows-[repeat(22,minmax(0,1fr))] bg-garden-bg p-2"
       role="region"
       aria-label="Garten-Layout"
     >
