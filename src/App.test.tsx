@@ -5,46 +5,91 @@ import MainPage from './pages/MainPage'
 import DetailPage from './pages/DetailPage'
 
 describe('MainPage', () => {
-  it('renders the heading', () => {
+  it('renders a tile for every patch as a link to its detail page', () => {
     render(
       <MemoryRouter>
         <MainPage />
       </MemoryRouter>
     )
-    expect(screen.getByRole('heading', { name: /garden/i })).toBeInTheDocument()
+
+    // Each numbered patch (1–14) is rendered as a clickable link.
+    for (let n = 1; n <= 14; n += 1) {
+      const link = screen.getByRole('link', { name: new RegExp(`Beet ${n}\\b`) })
+      expect(link).toHaveAttribute('href', `/patches/${n}`)
+    }
   })
 
-  it('renders item links', () => {
+  it('renders the special-variant patches Kompost, Kräuter and Himbeeren as links', () => {
     render(
       <MemoryRouter>
         <MainPage />
       </MemoryRouter>
     )
-    expect(screen.getByRole('link', { name: 'Item 1' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Item 5' })).toBeInTheDocument()
+
+    expect(screen.getByRole('link', { name: /Kompost/ })).toHaveAttribute('href', '/patches/15')
+    expect(screen.getByRole('link', { name: /Kräuter/ })).toHaveAttribute('href', '/patches/16')
+    expect(screen.getByRole('link', { name: /Himbeeren/ })).toHaveAttribute('href', '/patches/17')
+  })
+
+  it('renders storage units (Schuppen, Kiste) as links to /storage/:id', () => {
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('link', { name: 'Kiste' })).toHaveAttribute('href', '/storage/kiste')
+    expect(screen.getByRole('link', { name: 'Schuppen' })).toHaveAttribute(
+      'href',
+      '/storage/schuppen'
+    )
   })
 })
 
 describe('DetailPage', () => {
-  it('renders the item id from the route', () => {
-    render(
-      <MemoryRouter initialEntries={['/42']}>
+  function renderAt(path: string) {
+    return render(
+      <MemoryRouter initialEntries={[path]}>
         <Routes>
-          <Route path="/:id" element={<DetailPage />} />
+          <Route path="/patches/:number" element={<DetailPage />} />
         </Routes>
       </MemoryRouter>
     )
-    expect(screen.getByRole('heading', { name: /item 42/i })).toBeInTheDocument()
+  }
+
+  it('shows the patch label as the heading for /patches/7', () => {
+    renderAt('/patches/7')
+    expect(screen.getByRole('heading', { level: 1, name: 'Beet 7' })).toBeInTheDocument()
   })
 
-  it('renders a back link', () => {
-    render(
-      <MemoryRouter initialEntries={['/1']}>
-        <Routes>
-          <Route path="/:id" element={<DetailPage />} />
-        </Routes>
-      </MemoryRouter>
-    )
-    expect(screen.getByRole('link', { name: /back to list/i })).toBeInTheDocument()
+  it('lists the planted plant with its feeder and light requirement', () => {
+    renderAt('/patches/7')
+    expect(screen.getByText('Rote Bete')).toBeInTheDocument()
+    expect(screen.getByText(/Mittelzehrer · Sonne/)).toBeInTheDocument()
+  })
+
+  it('shows the plant count badge', () => {
+    renderAt('/patches/7')
+    expect(screen.getByText(/^1 Pflanze$/)).toBeInTheDocument()
+  })
+
+  it('renders a back link to the main page', () => {
+    renderAt('/patches/7')
+    const backLink = screen.getByRole('link', { name: /Beet 7/ })
+    expect(backLink).toHaveAttribute('href', '/')
+  })
+
+  it('renders the Saison-Plan section with month headers', () => {
+    renderAt('/patches/7')
+    expect(screen.getByText(/Saison-Plan/i)).toBeInTheDocument()
+    expect(screen.getByText('MÄR')).toBeInTheDocument()
+    expect(screen.getByText('NOV')).toBeInTheDocument()
+  })
+
+  it('shows a not-found fallback for unknown patch numbers', () => {
+    renderAt('/patches/999')
+    expect(
+      screen.getByRole('heading', { level: 1, name: /nicht gefunden/i })
+    ).toBeInTheDocument()
   })
 })

@@ -7,7 +7,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/:id" element={<DetailPage />} />
+        <Route path="/patches/:number" element={<DetailPage />} />
       </Routes>
     </BrowserRouter>
   )
