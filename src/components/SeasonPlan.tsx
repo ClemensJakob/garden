@@ -5,16 +5,16 @@ interface SeasonPlanProps {
   plants: readonly Plant[]
 }
 
-/** Tailwind background classes by status — black/dark/light gray to match the mockup. */
+/** Tailwind background classes by status — semantic garden colours. */
 function cellClass(status: SeasonStatus, isCurrent: boolean): string {
   const base = isCurrent ? 'border-2 border-black' : 'border border-transparent'
   switch (status) {
-    case 'säen':
-      return `${base} bg-black`
+    case 'aussaat':
+      return `${base} bg-amber-400`
     case 'pflanzen':
-      return `${base} bg-gray-700`
+      return `${base} bg-emerald-500`
     case 'ernte':
-      return `${base} bg-gray-300`
+      return `${base} bg-orange-500`
     case 'idle':
     default:
       return `${base} bg-gray-100`
@@ -71,7 +71,7 @@ export default function SeasonPlan({ plants }: SeasonPlanProps) {
           style={{ gridTemplateColumns: `5rem repeat(${SEASON_MONTHS.length}, minmax(0, 1fr))` }}
         >
           <span className="truncate text-sm font-semibold text-gray-900">
-            {plant.name.slice(0, 3)}
+            {plant.name}
           </span>
           {SEASON_MONTHS.map((month, i) => (
             <span
@@ -86,13 +86,13 @@ export default function SeasonPlan({ plants }: SeasonPlanProps) {
       {/* Legend */}
       <div className="mt-3 flex justify-end gap-3 text-[11px] text-gray-500">
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 bg-black" /> Säen
+          <span className="inline-block h-2 w-2 rounded-sm bg-amber-400" /> Aussaat
         </span>
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 bg-gray-700" /> Pflanzen
+          <span className="inline-block h-2 w-2 rounded-sm bg-emerald-500" /> Pflanzen
         </span>
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 bg-gray-300" /> Ernte
+          <span className="inline-block h-2 w-2 rounded-sm bg-orange-500" /> Ernte
         </span>
       </div>
     </div>

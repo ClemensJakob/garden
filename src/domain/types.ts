@@ -49,7 +49,7 @@ export const SEASON_MONTHS: readonly SeasonMonth[] = [
 ] as const
 
 /** What is happening with a plant in a given month. */
-export type SeasonStatus = 'säen' | 'pflanzen' | 'ernte' | 'idle'
+export type SeasonStatus = 'aussaat' | 'pflanzen' | 'ernte' | 'idle'
 
 export type SeasonPlan = Record<SeasonMonth, SeasonStatus>
 

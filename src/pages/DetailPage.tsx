@@ -41,7 +41,7 @@ export default function DetailPage() {
         to="/"
         className="inline-flex w-fit items-center gap-1 rounded bg-patch-border px-3 py-1 text-xs font-semibold text-patch-text"
       >
-        ‹ {patch.label}
+        ‹ Garten
       </Link>
 
       {/* Header card */}
@@ -49,7 +49,6 @@ export default function DetailPage() {
         <div className="flex items-start justify-between gap-2">
           <div>
             <h1 className="text-lg font-bold text-patch-text">{patch.label}</h1>
-            <p className="text-xs text-patch-text/60">Beet</p>
           </div>
           <span className="rounded bg-patch-border px-2 py-0.5 text-xs font-semibold text-patch-text">
             {plants.length} {plants.length === 1 ? 'Pflanze' : 'Pflanzen'}
@@ -58,7 +57,7 @@ export default function DetailPage() {
       </section>
 
       {/* Bepflanzung */}
-      <section className="rounded border border-patch-border bg-patch p-3 shadow-sm">
+      <section className="rounded border border-patch-border bg-white p-3 shadow-sm">
         <h2 className="text-[10px] font-semibold uppercase tracking-wider text-patch-text/50">
           Bepflanzung
         </h2>
@@ -84,7 +83,7 @@ export default function DetailPage() {
       </section>
 
       {/* Saison-Plan */}
-      <section className="rounded border border-patch-border bg-patch p-3 shadow-sm">
+      <section className="rounded border border-patch-border bg-white p-3 shadow-sm">
         <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-patch-text/50">
           Saison-Plan
         </h2>
