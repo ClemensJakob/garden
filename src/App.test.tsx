@@ -1,18 +1,50 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, it, expect } from 'vitest'
-import App from './App'
+import MainPage from './pages/MainPage'
+import DetailPage from './pages/DetailPage'
 
-describe('App', () => {
+describe('MainPage', () => {
   it('renders the heading', () => {
-    render(<App />)
-    expect(screen.getByText('Get started')).toBeInTheDocument()
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+    expect(screen.getByRole('heading', { name: /garden/i })).toBeInTheDocument()
   })
 
-  it('increments the counter on click', () => {
-    render(<App />)
-    const button = screen.getByRole('button', { name: /count is/i })
-    expect(button).toHaveTextContent('Count is 0')
-    fireEvent.click(button)
-    expect(button).toHaveTextContent('Count is 1')
+  it('renders item links', () => {
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+    expect(screen.getByRole('link', { name: 'Item 1' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Item 5' })).toBeInTheDocument()
+  })
+})
+
+describe('DetailPage', () => {
+  it('renders the item id from the route', () => {
+    render(
+      <MemoryRouter initialEntries={['/42']}>
+        <Routes>
+          <Route path="/:id" element={<DetailPage />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    expect(screen.getByRole('heading', { name: /item 42/i })).toBeInTheDocument()
+  })
+
+  it('renders a back link', () => {
+    render(
+      <MemoryRouter initialEntries={['/1']}>
+        <Routes>
+          <Route path="/:id" element={<DetailPage />} />
+        </Routes>
+      </MemoryRouter>
+    )
+    expect(screen.getByRole('link', { name: /back to list/i })).toBeInTheDocument()
   })
 })
