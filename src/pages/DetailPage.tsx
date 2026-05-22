@@ -9,6 +9,10 @@ import type { Plant } from '../domain/types'
  *
  * Layout follows the second mockup: back button, header card with name
  * and plant count badge, "Bepflanzung" list, and "Saison-Plan" section.
+ *
+ * Each plant in the Bepflanzung list links to the corresponding Plant
+ * detail page. We pass the current patch number via router state so the
+ * Plant page's "back" link can return here.
  */
 export default function DetailPage() {
   const { number: numberParam } = useParams<{ number: string }>()
@@ -66,16 +70,21 @@ export default function DetailPage() {
         ) : (
           <ul className="mt-1 divide-y divide-patch-border/30">
             {plants.map((plant) => (
-              <li key={plant.id} className="flex items-center justify-between gap-2 py-1.5">
-                <div>
-                  <p className="text-sm font-bold text-patch-text">{plant.name}</p>
-                  <p className="text-xs text-patch-text/60">
-                    {plant.feeder} · {plant.light}
-                  </p>
-                </div>
-                <span aria-hidden="true" className="text-patch-border">
-                  ›
-                </span>
+              <li key={plant.id}>
+                <Link
+                  to={`/plants/${plant.id}`}
+                  state={{ fromPatchNumber: patch.number }}
+                  className="flex items-center justify-between gap-2 py-1.5 hover:bg-patch-hover rounded transition-colors"
+                  aria-label={`${plant.name} Details`}
+                >
+                  <div>
+                    <p className="text-sm font-bold text-patch-text">{plant.name}</p>
+                    <p className="text-xs text-patch-text/60">{plant.feeder}</p>
+                  </div>
+                  <span aria-hidden="true" className="text-patch-border">
+                    ›
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>

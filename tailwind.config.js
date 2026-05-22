@@ -10,6 +10,21 @@ export default {
       lg: '0.5rem',
       full: '9999px',
     },
+    fontSize: {
+      xs: ['0.5rem', { lineHeight: '0.75rem' }],       // 8px
+      sm: ['0.625rem', { lineHeight: '0.875rem' }],    // 10px
+      base: ['0.75rem', { lineHeight: '1rem' }],       // 12px
+      lg: ['0.875rem', { lineHeight: '1.25rem' }],     // 14px
+      xl: ['1rem', { lineHeight: '1.5rem' }],          // 16px
+      '2xl': ['1.125rem', { lineHeight: '1.75rem' }],  // 18px
+      '3xl': ['1.375rem', { lineHeight: '2rem' }],     // 22px
+      '4xl': ['1.75rem', { lineHeight: '2.25rem' }],   // 28px
+      '5xl': ['2.25rem', { lineHeight: '1' }],         // 36px
+      '6xl': ['3rem', { lineHeight: '1' }],            // 48px
+      '7xl': ['3.75rem', { lineHeight: '1' }],         // 60px
+      '8xl': ['5rem', { lineHeight: '1' }],            // 80px
+      '9xl': ['6.75rem', { lineHeight: '1' }],         // 108px
+    },
     extend: {
       colors: {
         // Garden background — soft sage green

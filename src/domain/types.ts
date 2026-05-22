@@ -21,9 +21,6 @@ export type PlantId = string
 /** Nutrient need of a plant (used to plan rotation). */
 export type Feeder = 'Starkzehrer' | 'Mittelzehrer' | 'Schwachzehrer'
 
-/** Light requirement of a plant. */
-export type Light = 'Sonne' | 'Halbschatten' | 'Schatten'
-
 /** Months covered by the season plan in the mockup. */
 export type SeasonMonth =
   | 'MÄR'
@@ -48,17 +45,40 @@ export const SEASON_MONTHS: readonly SeasonMonth[] = [
   'NOV',
 ] as const
 
-/** What is happening with a plant in a given month. */
-export type SeasonStatus = 'aussaat' | 'pflanzen' | 'ernte' | 'idle'
+/**
+ * What is happening with a plant in a given month. A month can hold
+ * multiple statuses simultaneously (e.g. a late aussaat overlapping
+ * with an early ernte).
+ *
+ * - `vorziehen`: indoor pre-cultivation (Vorziehen) before outdoor planting
+ * - `aussaat`:   direct sowing into the bed (Aussaat)
+ * - `pflanzen`:  setting out young plants into the bed (Pflanzen)
+ * - `ernte`:     harvest (Ernte)
+ */
+export type SeasonStatus = 'vorziehen' | 'aussaat' | 'pflanzen' | 'ernte'
 
-export type SeasonPlan = Record<SeasonMonth, SeasonStatus>
+/**
+ * Per-month list of statuses. An empty array means the month is idle.
+ * The renderer is responsible for splitting a month cell visually when
+ * multiple statuses are present.
+ */
+export type SeasonPlan = Record<SeasonMonth, readonly SeasonStatus[]>
 
 export interface Plant {
   readonly id: PlantId
   readonly name: string
   readonly feeder: Feeder
-  readonly light: Light
   readonly seasonPlan: SeasonPlan
+  /** Distance between rows, in centimetres. */
+  readonly rowSpacing: number
+  /** Distance between plants within a row, in centimetres. */
+  readonly plantSpacing: number
+  /** Plants known to thrive next to this one. */
+  readonly goodCompanions: readonly PlantId[]
+  /** Plants known to harm this one when planted nearby. */
+  readonly badCompanions: readonly PlantId[]
+  /** Free-form remarks ("Besonderheiten"). */
+  readonly notes: string
 }
 
 // ---------- Patch ----------

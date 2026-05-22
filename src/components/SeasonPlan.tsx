@@ -6,18 +6,16 @@ interface SeasonPlanProps {
 }
 
 /** Tailwind background classes by status — semantic garden colours. */
-function cellClass(status: SeasonStatus, isCurrent: boolean): string {
-  const base = isCurrent ? 'border-2 border-black' : 'border border-transparent'
+function statusColor(status: SeasonStatus): string {
   switch (status) {
+    case 'vorziehen':
+      return 'bg-sky-400'
     case 'aussaat':
-      return `${base} bg-amber-400`
+      return 'bg-amber-400'
     case 'pflanzen':
-      return `${base} bg-emerald-500`
+      return 'bg-emerald-500'
     case 'ernte':
-      return `${base} bg-orange-500`
-    case 'idle':
-    default:
-      return `${base} bg-gray-100`
+      return 'bg-orange-500'
   }
 }
 
@@ -27,6 +25,48 @@ function currentSeasonIndex(): number {
   const m = new Date().getMonth() // 0 = Jan
   if (m < 2 || m > 10) return -1
   return m - 2
+}
+
+/**
+ * Renders a single month cell. When a month has multiple statuses we
+ * split the cell into equal vertical slices, one per status, in the
+ * order [aussaat, pflanzen, ernte]. An idle (empty) month renders as
+ * a single grey block.
+ */
+function MonthCell({
+  statuses,
+  isCurrent,
+  ariaLabel,
+}: {
+  statuses: readonly SeasonStatus[]
+  isCurrent: boolean
+  ariaLabel: string
+}) {
+  const border = isCurrent ? 'border-2 border-black' : 'border border-transparent'
+
+  if (statuses.length === 0) {
+    return (
+      <span
+        className={`h-5 rounded-sm bg-gray-100 ${border}`}
+        aria-label={ariaLabel}
+      />
+    )
+  }
+
+  // Stable status order so visual layout is predictable across plants.
+  const order: readonly SeasonStatus[] = ['vorziehen', 'aussaat', 'pflanzen', 'ernte']
+  const active = order.filter((s) => statuses.includes(s))
+
+  return (
+    <span
+      className={`flex h-5 overflow-hidden rounded-sm ${border}`}
+      aria-label={ariaLabel}
+    >
+      {active.map((s) => (
+        <span key={s} className={`flex-1 ${statusColor(s)}`} />
+      ))}
+    </span>
+  )
 }
 
 /**
@@ -73,18 +113,29 @@ export default function SeasonPlan({ plants }: SeasonPlanProps) {
           <span className="truncate text-sm font-semibold text-gray-900">
             {plant.name}
           </span>
-          {SEASON_MONTHS.map((month, i) => (
-            <span
-              key={month}
-              className={`h-5 rounded-sm ${cellClass(plant.seasonPlan[month], i === currentIdx)}`}
-              aria-label={`${plant.name} ${month}: ${plant.seasonPlan[month]}`}
-            />
-          ))}
+          {SEASON_MONTHS.map((month, i) => {
+            const statuses = plant.seasonPlan[month]
+            const label =
+              statuses.length === 0
+                ? `${plant.name} ${month}: idle`
+                : `${plant.name} ${month}: ${statuses.join(', ')}`
+            return (
+              <MonthCell
+                key={month}
+                statuses={statuses}
+                isCurrent={i === currentIdx}
+                ariaLabel={label}
+              />
+            )
+          })}
         </div>
       ))}
 
       {/* Legend */}
-      <div className="mt-3 flex justify-end gap-3 text-[11px] text-gray-500">
+      <div className="mt-3 flex flex-wrap justify-end gap-3 text-[11px] text-gray-500">
+        <span className="flex items-center gap-1">
+          <span className="inline-block h-2 w-2 rounded-sm bg-sky-400" /> Vorziehen
+        </span>
         <span className="flex items-center gap-1">
           <span className="inline-block h-2 w-2 rounded-sm bg-amber-400" /> Aussaat
         </span>
