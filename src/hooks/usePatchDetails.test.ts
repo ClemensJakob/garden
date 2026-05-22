@@ -11,7 +11,11 @@ describe('usePatchDetails', () => {
 
   it('returns the patch with its bedding referencing plants by id', () => {
     const patch = usePatchDetails(7)
-    expect(patch?.bedding).toEqual([{ plantId: 'rote-bete' }])
+    expect(patch?.bedding).toEqual([
+      { plantId: 'rucola' },
+      { plantId: 'radieschen' },
+      { plantId: 'edamame' },
+    ])
   })
 
   it('returns special patches like Kompost (15) and Kräuter (16)', () => {

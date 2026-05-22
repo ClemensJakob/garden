@@ -40,17 +40,24 @@ export default function PatchTile({patch, className}: PatchTileProps) {
                 </span>
             )}
             {isSpecial ? (
-                <span className="font-medium">{patch.label}</span>
+                <span className="font-medium [hyphens:auto] break-words">{patch.label}</span>
             ) : (
-                <div className="flex flex-col gap-0.5">
-                    {patch.bedding.length === 0 ? (
-                        <span className="text-patch-border/60">{patch.label}</span>
-                    ) : (
-                        patch.bedding.map((b) => (
-                            <span key={b.plantId}>{findPlantById(b.plantId)?.name}</span>
-                        ))
-                    )}
-                </div>
+                (() => {
+                    const plants = patch.bedding
+                    const alwaysSingleCol = patch.number === 13 || patch.number === 14
+                    const useColumns = !alwaysSingleCol && plants.length > 3
+                    return (
+                        <div className={`w-full px-0.5 ${useColumns ? 'grid grid-cols-2 gap-x-1 gap-y-0.5' : 'flex flex-col gap-0.5'}`}>
+                            {plants.length === 0 ? (
+                                <span className="text-patch-border/60 [hyphens:auto] break-words col-span-2">{patch.label}</span>
+                            ) : (
+                                plants.map((b) => (
+                                    <span key={b.plantId} className="[hyphens:auto] break-words">{findPlantById(b.plantId)?.name}</span>
+                                ))
+                            )}
+                        </div>
+                    )
+                })()
             )}
         </Link>
     )

@@ -10,91 +10,137 @@ import type { Patch } from './types'
  *
  * Grid positions are NOT stored here — they live in `src/layout/gardenLayout.ts`
  * as a separate presentation concern.
+ *
+ * Bedding for the 2026 season was taken from the hand-drawn season plan.
  */
 export const PATCHES: readonly Patch[] = [
   {
     number: 1,
     label: 'Beet 1',
     variant: 'default',
-    bedding: [{ plantId: 'tomaten' }],
+    bedding: [
+      { plantId: 'artischoke' },
+      { plantId: 'yas-salat' },
+      { plantId: 'aubergine' },
+      { plantId: 'paprika' },
+    ],
   },
   {
     number: 2,
     label: 'Beet 2',
     variant: 'default',
-    bedding: [{ plantId: 'zucchini' }],
+    bedding: [
+      { plantId: 'zucchini' },
+      { plantId: 'zinnien' },
+      { plantId: 'salat' },
+    ],
   },
   {
     number: 3,
     label: 'Beet 3',
     variant: 'default',
-    bedding: [{ plantId: 'bohnen' }, { plantId: 'karotten' }],
+    bedding: [
+      { plantId: 'kohlrabi' },
+      { plantId: 'senfsaat' },
+      { plantId: 'tagetes' },
+      { plantId: 'pimentos' },
+      { plantId: 'salat' },
+    ],
   },
   {
     number: 4,
     label: 'Beet 4',
     variant: 'default',
-    bedding: [{ plantId: 'pfluecksalat' }],
+    bedding: [{ plantId: 'erdbeeren' }],
   },
   {
     number: 5,
     label: 'Beet 5',
     variant: 'default',
-    bedding: [{ plantId: 'gruenkohl' }],
+    bedding: [
+      { plantId: 'lauch' },
+      { plantId: 'zinnien' },
+    ],
   },
   {
     number: 6,
     label: 'Beet 6',
     variant: 'default',
-    bedding: [{ plantId: 'mangold' }, { plantId: 'salat' }],
+    bedding: [
+      { plantId: 'physalis' },
+      { plantId: 'mangold' },
+      { plantId: 'zuckererbsen' },
+    ],
   },
   {
     number: 7,
     label: 'Beet 7',
     variant: 'default',
-    bedding: [{ plantId: 'rote-bete' }],
+    bedding: [
+      { plantId: 'rucola' },
+      { plantId: 'radieschen' },
+      { plantId: 'edamame' },
+    ],
   },
   {
     number: 8,
     label: 'Beet 8',
     variant: 'default',
-    bedding: [{ plantId: 'erbsen' }],
+    bedding: [
+      { plantId: 'kartoffeln-fruehling' },
+      { plantId: 'schwarzkohl-herbst' },
+    ],
   },
   {
     number: 9,
     label: 'Beet 9',
     variant: 'default',
-    bedding: [{ plantId: 'radieschen' }],
+    bedding: [
+      { plantId: 'kartoffeln-fruehling' },
+      { plantId: 'gruenkohl-herbst' },
+    ],
   },
   {
     number: 10,
     label: 'Beet 10',
     variant: 'default',
-    bedding: [{ plantId: 'lauch' }],
+    bedding: [{ plantId: 'blumenstauden' }],
   },
   {
     number: 11,
     label: 'Beet 11',
     variant: 'default',
-    bedding: [{ plantId: 'tomaten' }],
+    bedding: [{ plantId: 'kuerbis' }],
   },
   {
     number: 12,
     label: 'Beet 12',
     variant: 'default',
-    bedding: [{ plantId: 'mangold' }],
+    bedding: [],
   },
   {
     number: 13,
     label: 'Beet 13',
     variant: 'default',
-    bedding: [{ plantId: 'hokkaido' }],
+    bedding: [
+      { plantId: 'tomaten' },
+      { plantId: 'weisskohl' },
+      { plantId: 'rote-bete' },
+      { plantId: 'kohlrabi' },
+      { plantId: 'zwiebel' },
+      { plantId: 'rhabarber' },
+    ],
   },
   {
     number: 14,
     label: 'Beet 14',
     variant: 'default',
-    bedding: [{ plantId: 'gurken' }],
+    bedding: [
+      { plantId: 'spitzkohl' },
+      { plantId: 'stangenbohnen' },
+      { plantId: 'zinnien' },
+      { plantId: 'tagetes' },
+    ],
   },
   {
     number: 15,

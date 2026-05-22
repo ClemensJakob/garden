@@ -28,7 +28,7 @@ describe('MainPage', () => {
 
     expect(screen.getByRole('link', { name: /Kompost/ })).toHaveAttribute('href', '/patches/15')
     expect(screen.getByRole('link', { name: /Kräuter/ })).toHaveAttribute('href', '/patches/16')
-    expect(screen.getByRole('link', { name: /Himbeeren/ })).toHaveAttribute('href', '/patches/17')
+    expect(screen.getByRole('link', { name: /Beeren/ })).toHaveAttribute('href', '/patches/17')
   })
 
   it('renders storage units (Schuppen, Kiste) as links to /storage/:id', () => {
@@ -64,13 +64,14 @@ describe('DetailPage', () => {
 
   it('lists the planted plant with its feeder and light requirement', () => {
     renderAt('/patches/7')
-    expect(screen.getByText('Rote Bete')).toBeInTheDocument()
-    expect(screen.getByText(/Mittelzehrer · Sonne/)).toBeInTheDocument()
+    expect(screen.getByText('Rucola')).toBeInTheDocument()
+    expect(screen.getByText('Radieschen')).toBeInTheDocument()
+    expect(screen.getByText('Edamame')).toBeInTheDocument()
   })
 
   it('shows the plant count badge', () => {
     renderAt('/patches/7')
-    expect(screen.getByText(/^1 Pflanze$/)).toBeInTheDocument()
+    expect(screen.getByText(/^3 Pflanzen$/)).toBeInTheDocument()
   })
 
   it('renders a back link to the main page', () => {
