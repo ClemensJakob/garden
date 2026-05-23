@@ -158,9 +158,9 @@ describe('PlantDetailPage', () => {
     renderAt('/plants/rucola')
     expect(screen.getByText('Reihenabstand')).toBeInTheDocument()
     expect(screen.getByText('Pflanzabstand')).toBeInTheDocument()
-    // Rucola: rowSpacing 20cm, plantSpacing 10cm.
+    // Rucola: rowSpacing 20cm, plantSpacing 1cm (from 2026 plan).
     expect(screen.getByText('20 cm')).toBeInTheDocument()
-    expect(screen.getByText('10 cm')).toBeInTheDocument()
+    expect(screen.getByText('1 cm')).toBeInTheDocument()
   })
 
   it('lists good and bad companions as links to their plant pages', () => {
