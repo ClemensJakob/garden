@@ -13,7 +13,7 @@ describe('plantAccent', () => {
     // Erdbeeren — family "rosengewaechs" (default would be "strawberry"),
     // and explicitly overrides to "strawberry" too. Use Kartoffeln, which
     // overrides "nachtschatten" → "leaf".
-    const kartoffeln = findPlantById('kartoffeln-fruehling')!
+    const kartoffeln = findPlantById('kartoffeln')!
     expect(plantAccent(kartoffeln)).toBe('leaf')
   })
 })

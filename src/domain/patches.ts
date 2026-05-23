@@ -87,8 +87,8 @@ export const PATCHES: readonly Patch[] = [
     label: 'Beet 8',
     variant: 'default',
     bedding: [
-      { plantId: 'kartoffeln-fruehling' },
-      { plantId: 'schwarzkohl-herbst' },
+      { plantId: 'kartoffeln' },
+      { plantId: 'schwarzkohl' },
     ],
   },
   {
@@ -96,7 +96,7 @@ export const PATCHES: readonly Patch[] = [
     label: 'Beet 9',
     variant: 'default',
     bedding: [
-      { plantId: 'kartoffeln-fruehling' },
+      { plantId: 'kartoffeln' },
       { plantId: 'gruenkohl-herbst' },
     ],
   },
