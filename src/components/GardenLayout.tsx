@@ -19,21 +19,21 @@ function patch(n: number) {
 export default function GardenLayout() {
   return (
     <div
-      className="grid h-[100dvh] w-full max-w-md grid-cols-12 grid-rows-[repeat(22,minmax(0,1fr))] gap-2 bg-garden-bg p-2"
+      className="grid h-[100dvh] w-full max-w-md grid-cols-12 grid-rows-[repeat(22,minmax(0,1fr))] gap-2 bg-garden-bg p-2 mx-auto"
       role="region"
       aria-label="Garten-Layout"
     >
       <PatchTile patch={patch(11)} className="col-span-5 col-start-1 row-span-1 row-start-1" />
-      <PatchTile patch={patch(10)} className="col-span-5 col-start-1 row-span-2 row-start-2" />
-      <PatchTile patch={patch(9)} className="col-span-5 col-start-1 row-span-2 row-start-4" />
-      <PatchTile patch={patch(8)} className="col-span-5 col-start-1 row-span-2 row-start-6" />
-      <PatchTile patch={patch(7)} className="col-span-5 col-start-1 row-span-2 row-start-8" />
-      <PatchTile patch={patch(6)} className="col-span-5 col-start-1 row-span-2 row-start-10" />
-      <PatchTile patch={patch(5)} className="col-span-5 col-start-1 row-span-2 row-start-12" />
-      <PatchTile patch={patch(4)} className="col-span-5 col-start-1 row-span-2 row-start-14" />
-      <PatchTile patch={patch(3)} className="col-span-5 col-start-1 row-span-2 row-start-16" />
-      <PatchTile patch={patch(2)} className="col-span-5 col-start-1 row-span-2 row-start-18" />
-      <PatchTile patch={patch(1)} className="col-span-5 col-start-1 row-span-2 row-start-20" />
+      <PatchTile patch={patch(10)} className="col-span-5 col-start-1 row-span-1 row-start-2" />
+      <PatchTile patch={patch(9)} className="col-span-5 col-start-1 row-span-2 row-start-3" />
+      <PatchTile patch={patch(8)} className="col-span-5 col-start-1 row-span-2 row-start-5" />
+      <PatchTile patch={patch(7)} className="col-span-5 col-start-1 row-span-2 row-start-7" />
+      <PatchTile patch={patch(6)} className="col-span-5 col-start-1 row-span-2 row-start-9" />
+      <PatchTile patch={patch(5)} className="col-span-5 col-start-1 row-span-2 row-start-11" />
+      <PatchTile patch={patch(4)} className="col-span-5 col-start-1 row-span-2 row-start-13" />
+      <PatchTile patch={patch(3)} className="col-span-5 col-start-1 row-span-2 row-start-15" />
+      <PatchTile patch={patch(2)} className="col-span-5 col-start-1 row-span-2 row-start-17" />
+      <PatchTile patch={patch(1)} className="col-span-5 col-start-1 row-span-2 row-start-19" />
 
       {/*Mitte*/}
       <PatchTile patch={patch(12)} className="col-span-4 col-start-6 row-start-1" />
@@ -53,7 +53,7 @@ export default function GardenLayout() {
       <PatchTile patch={patch(16)} className="col-span-3 col-start-10 row-span-3 row-start-2" />
 
       {/*Unten*/}
-      <PatchTile patch={patch(17)} className="col-span-6 col-start-7 row-span-2 row-start-20" />
+      <PatchTile patch={patch(17)} className="col-span-6 col-start-7 row-span-2 row-start-19" />
       <StorageUnitTile
         unit={STORAGE_UNITS.find((u) => u.id === 'schuppen')!}
         className="col-span-3 col-start-10 row-span-2 row-start-17"
