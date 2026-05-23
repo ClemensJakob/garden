@@ -58,56 +58,60 @@ export default function PatchTile({patch, className}: PatchTileProps) {
     const shape = patch.variant === 'kraeuter' ? '' : 'rounded-none'
 
     return (
-        <Link
-            to={`/patches/${patch.number}`}
-            className={`relative flex items-center justify-center text-center text-sm transition-all hover:shadow-md hover:-translate-y-px ${shape} ${variantClasses(patch.variant)} ${soilShadow} ${className}`}
-            aria-label={`${patch.label} (Beet ${patch.number})`}
-        >
-            {showBadge && (
-                <span
-                    className="absolute left-1 top-0 text-xs font-normal text-patch-border"
-                    aria-hidden="true"
-                >
-                    {patch.number}
-                </span>
-            )}
-            {isSpecial ? (
-                patch.variant === 'beere' ? (
-                    <span className="flex items-center gap-1 font-medium [hyphens:auto] break-words">
-                        <span aria-hidden="true">{BEERE_ICON}</span>
-                        {patch.label}
-                    </span>
+      <Link
+        to={`/patches/${patch.number}`}
+        className={`relative flex items-center justify-center text-center text-sm transition-all hover:-translate-y-px hover:shadow-md ${shape} ${variantClasses(patch.variant)} ${soilShadow} ${className}`}
+        aria-label={`${patch.label} (Beet ${patch.number})`}
+      >
+        {showBadge && (
+          <div
+            className="bg-patch-num absolute -left-1.5 -top-1 rounded-lg w-[0.75rem] text-xs font-normal text-patch-border"
+            aria-hidden="true"
+          >
+            {patch.number}
+          </div>
+        )}
+        {isSpecial ? (
+          patch.variant === 'beere' ? (
+            <span className="flex items-center gap-1 break-words font-medium [hyphens:auto]">
+              <span aria-hidden="true">{BEERE_ICON}</span>
+              {patch.label}
+            </span>
+          ) : (
+            <span className="break-words font-medium [hyphens:auto]">{patch.label}</span>
+          )
+        ) : (
+          (() => {
+            const plants = patch.bedding
+            const alwaysSingleCol = patch.number === 13 || patch.number === 14
+            const useColumns = !alwaysSingleCol && plants.length > 3
+            return (
+              <div
+                className={`w-full px-0.5 ${useColumns ? 'grid grid-cols-2 gap-x-1 gap-y-0.5' : 'flex flex-col gap-0.5'}`}
+              >
+                {plants.length === 0 ? (
+                  <span className="col-span-2 break-words text-patch-border/60 [hyphens:auto]">
+                    {patch.label}
+                  </span>
                 ) : (
-                    <span className="font-medium [hyphens:auto] break-words">{patch.label}</span>
-                )
-            ) : (
-                (() => {
-                    const plants = patch.bedding
-                    const alwaysSingleCol = patch.number === 13 || patch.number === 14
-                    const useColumns = !alwaysSingleCol && plants.length > 3
+                  plants.map((b) => {
+                    const plant = findPlantById(b.plantId)
                     return (
-                        <div className={`w-full px-0.5 ${useColumns ? 'grid grid-cols-2 gap-x-1 gap-y-0.5' : 'flex flex-col gap-0.5'}`}>
-                            {plants.length === 0 ? (
-                                <span className="text-patch-border/60 [hyphens:auto] break-words col-span-2">{patch.label}</span>
-                            ) : (
-                                plants.map((b) => {
-                                    const plant = findPlantById(b.plantId)
-                                    return (
-                                        <span key={b.plantId} className="[hyphens:auto] break-words">
-                                            {plant?.icon && (
-                                                <span className="mr-0.5" aria-hidden="true">
-                                                    {plant.icon}
-                                                </span>
-                                            )}
-                                            {plant?.name}
-                                        </span>
-                                    )
-                                })
-                            )}
-                        </div>
+                      <span key={b.plantId} className="break-words [hyphens:auto]">
+                        {plant?.icon && (
+                          <span className="mr-0.5" aria-hidden="true">
+                            {plant.icon}
+                          </span>
+                        )}
+                        {plant?.name}
+                      </span>
                     )
-                })()
-            )}
-        </Link>
+                  })
+                )}
+              </div>
+            )
+          })()
+        )}
+      </Link>
     )
 }
