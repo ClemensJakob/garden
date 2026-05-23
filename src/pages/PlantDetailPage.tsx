@@ -1,6 +1,7 @@
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { findPlantById, PLANTS } from '../domain/plants'
 import SeasonPlan from '../components/SeasonPlan'
+import GardenButton from '../components/GardenButton'
 import type { Plant, PlantId, SeasonActivity, SeasonStatus } from '../domain/types'
 import { SEASON_STATUS_ORDER } from '../domain/types'
 
@@ -44,12 +45,7 @@ export default function PlantDetailPage() {
       <main className="flex flex-col items-center gap-3 p-4 bg-garden-bg min-h-screen">
         <h1 className="text-lg font-semibold text-patch-text">Pflanze nicht gefunden</h1>
         <p className="text-sm text-patch-text/60">Pflanze „{id}“ existiert nicht.</p>
-        <Link
-          to={back.to}
-          className="rounded border border-patch-border px-3 py-1 text-sm text-patch-text hover:bg-patch-hover transition-colors"
-        >
-          {back.label}
-        </Link>
+        <GardenButton to={back.to}>{back.label}</GardenButton>
       </main>
     )
   }
@@ -57,12 +53,7 @@ export default function PlantDetailPage() {
   return (
     <main className="flex flex-col gap-2 bg-garden-bg p-3 min-h-screen">
       {/* Back button */}
-      <Link
-        to={back.to}
-        className="inline-flex w-fit items-center gap-1 rounded bg-patch-border px-3 py-1 text-xs font-semibold text-patch-text"
-      >
-        {back.label}
-      </Link>
+      <GardenButton to={back.to}>{back.label}</GardenButton>
 
       {/* Header */}
       <section className="rounded border border-patch-border bg-patch p-3 shadow-sm">

@@ -2,6 +2,7 @@ import { PATCHES } from '../domain/patches'
 import { STORAGE_UNITS } from '../domain/storageUnits'
 import PatchTile from './PatchTile'
 import StorageUnitTile from './StorageUnitTile'
+import GardenButton from './GardenButton'
 
 function patch(n: number) {
   return PATCHES.find((p) => p.number === n)!
@@ -19,9 +20,12 @@ function patch(n: number) {
 export default function GardenLayout() {
   return (
     <div
-      className="grid h-[100dvh] w-full max-w-md grid-cols-12 grid-rows-[repeat(22,minmax(0,1fr))] gap-2 bg-garden-bg p-2 mx-auto"
+      className="relative h-[100dvh] w-full max-w-md bg-garden-bg p-2 mx-auto"
       role="region"
       aria-label="Garten-Layout"
+    >
+    <div
+      className="grid h-full w-full grid-cols-12 grid-rows-[repeat(22,minmax(0,1fr))] gap-2"
     >
       <PatchTile patch={patch(11)} className="col-span-5 col-start-1 row-span-1 row-start-1" />
       <PatchTile patch={patch(10)} className="col-span-5 col-start-1 row-span-1 row-start-2" />
@@ -38,14 +42,14 @@ export default function GardenLayout() {
       {/*Mitte*/}
       <PatchTile patch={patch(12)} className="col-span-4 col-start-6 row-start-1" />
       <PatchTile
-        id="tomatenbeet"
+        data-testid="tomatenbeet"
         patch={patch(13)}
         className="col-span-3 col-start-7 row-span-11 row-start-5"
       />
 
       {/*Rechts*/}
       <PatchTile
-        id="gemuesehuegel"
+        data-testid="gemuesehuegel"
         patch={patch(14)}
         className="col-span-3 col-start-10 row-span-11 row-start-5"
       />
@@ -62,6 +66,15 @@ export default function GardenLayout() {
         unit={STORAGE_UNITS.find((u) => u.id === 'kiste')!}
         className="col-span-3 col-start-7 row-span-2 row-start-17"
       />
+    </div>
+      {/* Floating action button — fixed to the bottom of the viewport so it
+          never pushes the grid or causes scrolling on small screens. */}
+      <GardenButton
+        to="/season-plan"
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 rounded-full px-5 py-2.5 text-sm shadow-lg z-10"
+      >
+        📅 Saison-Plan
+      </GardenButton>
     </div>
   )
 }

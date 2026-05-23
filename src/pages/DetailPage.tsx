@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { usePatchDetails } from '../hooks/usePatchDetails'
 import { findPlantById } from '../domain/plants'
 import SeasonPlan from '../components/SeasonPlan'
+import GardenButton from '../components/GardenButton'
 import type { Plant } from '../domain/types'
 
 /**
@@ -24,12 +25,7 @@ export default function DetailPage() {
       <main className="flex flex-col items-center gap-3 p-4 bg-garden-bg min-h-screen">
         <h1 className="text-lg font-semibold text-patch-text">Beet nicht gefunden</h1>
         <p className="text-sm text-patch-text/60">Beet #{numberParam} existiert nicht.</p>
-        <Link
-          to="/"
-          className="rounded border border-patch-border px-3 py-1 text-sm text-patch-text hover:bg-patch-hover transition-colors"
-        >
-          ← Zurück
-        </Link>
+        <GardenButton to="/">← Zurück</GardenButton>
       </main>
     )
   }
@@ -41,12 +37,7 @@ export default function DetailPage() {
   return (
     <main className="flex flex-col gap-2 bg-garden-bg p-3 min-h-screen">
       {/* Back button */}
-      <Link
-        to="/"
-        className="inline-flex w-fit items-center gap-1 rounded bg-patch-border px-3 py-1 text-xs font-semibold text-patch-text"
-      >
-        ‹ Garten
-      </Link>
+      <GardenButton to="/">‹ Garten</GardenButton>
 
       {/* Header card */}
       <section className="rounded border border-patch-border bg-patch p-3 shadow-sm">
