@@ -87,7 +87,7 @@ export default function PatchTile({patch, className}: PatchTileProps) {
             const useColumns = !alwaysSingleCol && plants.length > 3
             return (
               <div
-                className={`w-full px-0.5 ${useColumns ? 'grid grid-cols-2 gap-x-1 gap-y-0.5' : 'flex flex-col gap-0.5'}`}
+                className={`w-full px-0.5 ${useColumns ? 'grid grid-cols-2 gap-x-1 gap-y-0.5' : 'flex flex-col items-center gap-0.5'}`}
               >
                 {plants.length === 0 ? (
                   <span className="col-span-2 break-words text-patch-border/60 [hyphens:auto]">
@@ -97,7 +97,7 @@ export default function PatchTile({patch, className}: PatchTileProps) {
                   plants.map((b) => {
                     const plant = findPlantById(b.plantId)
                     return (
-                      <span key={b.plantId} className="break-words [hyphens:auto]">
+                      <span key={b.plantId} className="flex items-center break-words [hyphens:auto]">
                         {plant?.icon && (
                           <span className="mr-0.5" aria-hidden="true">
                             {plant.icon}
