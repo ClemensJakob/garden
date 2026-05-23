@@ -376,7 +376,9 @@ export const PLANTS: readonly Plant[] = [
     name: 'Himbeeren',
     feeder: 'Mittelzehrer',
     family: 'rosengewaechs',
-    icon: '🫐',
+    // Unicode has no raspberry codepoint — grape cluster is the closest
+    // visual match for a drupelet/berry cluster.
+    icon: '🍇',
     seasonActivities: seasonActivities({
       JUN: 'ernte',
       JUL: 'ernte',

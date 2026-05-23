@@ -27,19 +27,22 @@ export default {
     },
     extend: {
       colors: {
-        // Garden background — soft sage green
+        // Garden background — lush "Es-Day" / Stardew grass.
+        // Saturation lifted vs. the earlier sage so beds clearly read as
+        // "soil sitting on a lawn" rather than two muted greens stacked.
         garden: {
-          bg: '#d4e6c3',        // soft green lawn
+          bg: '#9fc97a',        // vivid lawn green
           path: '#c8b99a',      // sandy path between beds
         },
-        // Patch (Beet) — warm earthy tones
+        // Patch (Beet) — warm earthy tones, richer than before so the
+        // soil pops against the lawn.
         patch: {
-          DEFAULT: '#e8d5b0',   // light warm brown / sandy soil
-          border: '#c4a97a',    // medium brown border
-          text: '#4a3728',      // dark brown text
-          hover: '#dfc89a',     // slightly darker on hover
+          DEFAULT: '#d9b079',   // tilled soil, mid-tone
+          border: '#8a5a32',    // dark soil border (furrow)
+          text: '#3a2814',      // dark brown text
+          hover: '#cfa468',     // slightly darker on hover
         },
-        // Kompost — dark rich earth
+        // Kompost — dark rich earth (unchanged, already strong contrast)
         kompost: {
           bg: '#2d1f0e',
           border: '#1a1108',
@@ -51,17 +54,29 @@ export default {
           border: '#7db87a',
           text: '#2d5a27',
         },
-        // Beere — muted berry purple
+        // Beere — raspberry pink/red, named after the lead crop
+        // (Himbeeren). Earlier purple read as lavender / herb.
         beere: {
-          bg: '#e8d5e8',
-          border: '#9b6b9b',
-          text: '#4a1f4a',
+          bg: '#f4c2cc',        // soft raspberry blush
+          border: '#c2185b',    // deep raspberry
+          text: '#5a0a25',      // dark berry juice
         },
-        // Storage units (Schuppen, Kiste) — weathered wood
+        // Storage units — split into two distinct materials so Kiste
+        // (metal/stone tool box) and Schuppen (wooden shed) read at a
+        // glance instead of looking like the same brown rectangle.
         storage: {
-          bg: '#c9b08a',
-          border: '#a08060',
-          text: '#3d2b1a',
+          // Kiste — cool grey, like a galvanised metal crate.
+          kiste: {
+            bg: '#b8b8b8',
+            border: '#7a7a7a',
+            text: '#2a2a2a',
+          },
+          // Schuppen — warm weathered wood planks.
+          schuppen: {
+            bg: '#b08355',
+            border: '#6b4423',
+            text: '#2a1a08',
+          },
         },
         // Plant accent palette — each AccentColor token maps to a soft
         // tint (used as patch background overlay) and a deeper shade

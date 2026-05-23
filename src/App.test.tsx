@@ -46,15 +46,25 @@ describe('MainPage', () => {
     )
   })
 
-  it("tints a bed with its lead plant's accent color (e.g. Kürbis → pumpkin)", () => {
-    // Beet 11 = Kürbis only → bed should carry the pumpkin accent class.
+  it('renders every default bed with the same uniform soil background', () => {
+    // Visual contract: the lawn is the visual carrier, beds are uniform
+    // soil tiles, and the *contents* (plant icons + names) tell each
+    // bed apart. So no default bed should carry a per-plant accent
+    // tint — they all share `bg-patch`.
     render(
       <MemoryRouter>
         <MainPage />
       </MemoryRouter>
     )
     const kuerbisBed = screen.getByRole('link', { name: /Beet 11/ })
-    expect(kuerbisBed.className).toMatch(/accent-pumpkin/)
+    const tomatenBed = screen.getByRole('link', { name: /Beet 13/ })
+
+    // Both default beds use the soil background…
+    expect(kuerbisBed.className).toMatch(/bg-patch\b/)
+    expect(tomatenBed.className).toMatch(/bg-patch\b/)
+    // …and neither carries a per-plant accent tint anymore.
+    expect(kuerbisBed.className).not.toMatch(/accent-/)
+    expect(tomatenBed.className).not.toMatch(/accent-/)
   })
 
   it('shows the plant icon next to its name when one is defined', () => {

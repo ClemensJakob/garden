@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom'
-import type {AccentColor, Patch, PatchVariant} from '../domain/types'
-import {findPlantById, patchAccent} from '../domain/plants'
+import type {Patch, PatchVariant} from '../domain/types'
+import {findPlantById} from '../domain/plants'
 
 interface PatchTileProps {
     patch: Patch
@@ -8,57 +8,59 @@ interface PatchTileProps {
 }
 
 /**
- * Static map: AccentColor → literal Tailwind classes.
- *
- * Why static literals? Tailwind's JIT scans source files for class
- * names verbatim. A computed class like `bg-accent-${color}-bg` would
- * silently fall out of the bundle. Listing every concrete combination
- * here keeps the build honest.
- *
- * The classes paint a soft tint on top of the soil base and lift the
- * border into the accent color, so each bed reads as "this is the
- * tomato bed" / "this is the strawberry bed" at a glance.
+ * Stand-in emoji for the Beere (raspberry) tile. Unicode has no
+ * dedicated raspberry codepoint, so we use the grape cluster as the
+ * closest visual analogue — both are drupelet/berry clusters.
  */
-const ACCENT_CLASSES: Record<AccentColor, string> = {
-    tomato:     'bg-accent-tomato-bg     border-accent-tomato-border',
-    pumpkin:    'bg-accent-pumpkin-bg    border-accent-pumpkin-border',
-    leaf:       'bg-accent-leaf-bg       border-accent-leaf-border',
-    pea:        'bg-accent-pea-bg        border-accent-pea-border',
-    carrot:     'bg-accent-carrot-bg     border-accent-carrot-border',
-    beet:       'bg-accent-beet-bg       border-accent-beet-border',
-    onion:      'bg-accent-onion-bg      border-accent-onion-border',
-    lettuce:    'bg-accent-lettuce-bg    border-accent-lettuce-border',
-    strawberry: 'bg-accent-strawberry-bg border-accent-strawberry-border',
-    rhubarb:    'bg-accent-rhubarb-bg    border-accent-rhubarb-border',
-    bloom:      'bg-accent-bloom-bg      border-accent-bloom-border',
-}
+const BEERE_ICON = '🍇'
 
-/** Tailwind classes per visual variant — renders a Patch as a tile in the layout. */
+/**
+ * Tailwind classes per visual variant — renders a Patch as a tile in
+ * the layout. Default patches all share the same soil color: the lawn
+ * is the visual carrier, beds are uniform soil, and the *contents*
+ * (plant icons + names) tell each bed apart.
+ */
 function variantClasses(variant: PatchVariant): string {
     switch (variant) {
         case 'kompost':
-            return 'bg-kompost-bg text-kompost-text border-kompost-border'
+            // Kompost: dark earth, sharp rectangular footprint, no border.
+            return 'bg-kompost-bg text-kompost-text'
         case 'kraeuter':
-            return 'bg-kraeuter-bg text-kraeuter-text border-2 border-dashed border-kraeuter-border rounded-full'
+            // Kräuter is the only round bed — a true circle floating on
+            // the lawn. The grid cell is rectangular; aspect-square +
+            // auto margins center the disc inside whatever cell
+            // GardenLayout assigns.
+            return 'bg-kraeuter-bg text-kraeuter-text border-2 border-dashed border-kraeuter-border rounded-full aspect-square m-auto h-full max-w-full'
         case 'beere':
-            return 'bg-beere-bg text-beere-text border-beere-border'
+            // Berry patch: raspberry blush, square corners, borderless.
+            return 'bg-beere-bg text-beere-text'
         case 'default':
         default:
-            return 'border text-patch-text hover:brightness-95'
+            // Soil bed: uniform color, square corners, borderless.
+            // The lawn around it provides the visual separation.
+            return 'bg-patch text-patch-text hover:brightness-95'
     }
 }
 
 export default function PatchTile({patch, className}: PatchTileProps) {
     const isSpecial = patch.variant !== 'default'
     const showBadge = !isSpecial
-    const accent = isSpecial ? undefined : patchAccent(patch.bedding)
-    const accentClasses = accent
-        ? ACCENT_CLASSES[accent]
-        : 'bg-patch border-patch-border' // neutral soil for empty / unknown beds
+
+    // Default patches get a soft inset shadow so they read as a sunken
+    // soil bed nestled into the lawn rather than a flat card.
+    const soilShadow = !isSpecial
+        ? 'shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06),inset_0_-2px_4px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.1)]'
+        : 'shadow-sm'
+
+    // The Kräuter circle is the only variant that wants rounded corners;
+    // every other patch is a straight-edged rectangle that tiles into
+    // the lawn.
+    const shape = patch.variant === 'kraeuter' ? '' : 'rounded-none'
+
     return (
         <Link
             to={`/patches/${patch.number}`}
-            className={`relative flex items-center justify-center text-center text-sm shadow-sm transition-all hover:shadow-md hover:-translate-y-px rounded-md ${variantClasses(patch.variant)} ${!isSpecial ? accentClasses : ''} ${className}`}
+            className={`relative flex items-center justify-center text-center text-sm transition-all hover:shadow-md hover:-translate-y-px ${shape} ${variantClasses(patch.variant)} ${soilShadow} ${className}`}
             aria-label={`${patch.label} (Beet ${patch.number})`}
         >
             {showBadge && (
@@ -70,7 +72,14 @@ export default function PatchTile({patch, className}: PatchTileProps) {
                 </span>
             )}
             {isSpecial ? (
-                <span className="font-medium [hyphens:auto] break-words">{patch.label}</span>
+                patch.variant === 'beere' ? (
+                    <span className="flex items-center gap-1 font-medium [hyphens:auto] break-words">
+                        <span aria-hidden="true">{BEERE_ICON}</span>
+                        {patch.label}
+                    </span>
+                ) : (
+                    <span className="font-medium [hyphens:auto] break-words">{patch.label}</span>
+                )
             ) : (
                 (() => {
                     const plants = patch.bedding
