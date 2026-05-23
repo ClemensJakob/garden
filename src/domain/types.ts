@@ -164,6 +164,15 @@ export type SeasonPlan = Record<SeasonMonth, readonly SeasonStatus[]>
 export interface Plant {
   readonly id: PlantId
   readonly name: string
+  /**
+   * Short display name shown on the Patch tile. When present, this is
+   * used instead of `name` in dense UI contexts (e.g. the garden layout).
+   * Falls back to `name` when absent.
+   *
+   * Examples: "Bohnen" for "Stangenbohnen", "Erbsen" for "Zuckererbsen",
+   * "Stauden" for "Blumenstauden".
+   */
+  readonly displayName?: string
   readonly feeder: Feeder
   /**
    * Botanical family. Drives both crop-rotation reasoning (plants of

@@ -2,6 +2,30 @@ import { describe, it, expect } from 'vitest'
 import { findPlantById, patchAccent } from './plants'
 import { plantAccent, type Bedding } from './types'
 
+describe('Plant.displayName', () => {
+  it('stangenbohnen has displayName "Bohnen"', () => {
+    const plant = findPlantById('stangenbohnen')!
+    expect(plant.displayName).toBe('Bohnen')
+  })
+
+  it('zuckererbsen has displayName "Erbsen"', () => {
+    const plant = findPlantById('zuckererbsen')!
+    expect(plant.displayName).toBe('Erbsen')
+  })
+
+  it('blumenstauden has displayName "Stauden"', () => {
+    const plant = findPlantById('blumenstauden')!
+    expect(plant.displayName).toBe('Stauden')
+  })
+
+  it('plants without a displayName have name as the canonical label', () => {
+    // tomaten has no displayName — name is the only label
+    const plant = findPlantById('tomaten')!
+    expect(plant.displayName).toBeUndefined()
+    expect(plant.name).toBe('Tomaten')
+  })
+})
+
 describe('plantAccent', () => {
   it('falls back to the family default when no override is given', () => {
     // Tomaten — family "nachtschatten", no explicit accentColor → "tomato".

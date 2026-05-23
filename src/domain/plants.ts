@@ -415,25 +415,6 @@ export const PLANTS: readonly Plant[] = [
     notes: 'In milden Lagen mehrjährig — gut mit Laub abdecken im Winter. Knospen ernten, bevor sie sich öffnen.',
   },
   {
-    id: 'yas-salat',
-    name: 'Yas-Salat',
-    feeder: 'Schwachzehrer',
-    family: 'korbbluetler',
-    icon: '🥗',
-    seasonActivities: seasonActivities({
-      MÄR: 'aussaat',
-      APR: 'aussaat',
-      MAI: 'ernte',
-      JUN: 'ernte',
-      JUL: 'ernte',
-    }),
-    rowSpacing: 25,
-    plantSpacing: 20,
-    goodCompanions: ['radieschen', 'karotten', 'erdbeeren'],
-    badCompanions: [],
-    notes: 'Asiatische Salatsorte mit pikantem Aroma. Mehrfach pflückbar.',
-  },
-  {
     id: 'aubergine',
     name: 'Aubergine',
     feeder: 'Starkzehrer',
@@ -608,6 +589,7 @@ export const PLANTS: readonly Plant[] = [
   {
     id: 'zuckererbsen',
     name: 'Zuckererbsen',
+    displayName: 'Erbsen',
     feeder: 'Schwachzehrer',
     family: 'huelsenfruechtler',
     icon: '🟢',
@@ -699,7 +681,7 @@ export const PLANTS: readonly Plant[] = [
   },
   {
     id: 'gruenkohl-herbst',
-    name: 'Grünkohl (Herbst)',
+    name: 'Grünkohl',
     feeder: 'Starkzehrer',
     family: 'kreuzbluetler',
     icon: '🥬',
@@ -718,6 +700,7 @@ export const PLANTS: readonly Plant[] = [
   {
     id: 'blumenstauden',
     name: 'Blumenstauden',
+    displayName: 'Stauden',
     feeder: 'Schwachzehrer',
     family: 'kraut',
     icon: '🌷',
@@ -826,6 +809,7 @@ export const PLANTS: readonly Plant[] = [
   {
     id: 'stangenbohnen',
     name: 'Stangenbohnen',
+    displayName: 'Bohnen',
     feeder: 'Schwachzehrer',
     family: 'huelsenfruechtler',
     icon: '🫛',

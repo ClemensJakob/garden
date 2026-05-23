@@ -20,7 +20,7 @@ export const PATCHES: readonly Patch[] = [
     variant: 'default',
     bedding: [
       { plantId: 'artischoke' },
-      { plantId: 'yas-salat' },
+      { plantId: 'salat' },
       { plantId: 'aubergine' },
       { plantId: 'paprika' },
     ],
