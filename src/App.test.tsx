@@ -1,1 +1,199 @@
-aW1wb3J0IHsgcmVuZGVyLCBzY3JlZW4gfSBmcm9tICdAdGVzdGluZy1saWJyYXJ5L3JlYWN0JwppbXBvcnQgeyBNZW1vcnlSb3V0ZXIsIFJvdXRlLCBSb3V0ZXMgfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJwppbXBvcnQgeyBkZXNjcmliZSwgaXQsIGV4cGVjdCB9IGZyb20gJ3ZpdGVzdCcKaW1wb3J0IE1haW5QYWdlIGZyb20gJy4vcGFnZXMvTWFpblBhZ2UnCmltcG9ydCBEZXRhaWxQYWdlIGZyb20gJy4vcGFnZXMvRGV0YWlsUGFnZScKaW1wb3J0IFBsYW50RGV0YWlsUGFnZSBmcm9tICcuL3BhZ2VzL1BsYW50RGV0YWlsUGFnZScKCmRlc2NyaWJlKCdNYWluUGFnZScsICgpID0+IHsKICBpdCgncmVuZGVycyBhIHRpbGUgZm9yIGV2ZXJ5IHBhdGNoIGFzIGEgbGluayB0byBpdHMgZGV0YWlsIHBhZ2UnLCAoKSA9PiB7CiAgICByZW5kZXIoCiAgICAgIDxNZW1vcnlSb3V0ZXI+CiAgICAgICAgPE1haW5QYWdlIC8+CiAgICAgIDwvTWVtb3J5Um91dGVyPgogICAgKQoKICAgIC8vIEVhY2ggbnVtYmVyZWQgcGF0Y2ggKDEtMTQpIGlzIHJlbmRlcmVkIGFzIGEgY2xpY2thYmxlIGxpbmsuCiAgICBmb3IgKGxldCBuID0gMTsgbiA8PSAxNDsgbis9IDEpIHsKICAgICAgY29uc3QgbGluayA9IHNjcmVlbi5nZXRCeVJvbGUoJ2xpbmsnLCB7IG5hbWU6IG5ldyBSZWdFeHAoYEJlZXQgJHtuXFxiL2ApIH0pCiAgICAgIGV4cGVjdChsaW5rKS50b0hhdmVBdHRyaWJ1dGUoJ2hyZWYnLCBgL3BhdGNoZXMvJHtuYX0pCiAgICB9CiAgfSkKCiAgaXQoJ3JlbmRlcnMgdGhlIHNwZWNpYWwtdmFyaWFudCBwYXRjaGVzIEtvbXBvc3QsIEtyw6R1dGVyIGFuZCBIaW1iZWVyZW4gYXMgbGluayB0byB0aGVpciBkZXRhaWwgYmVkJywgKCkgPT4gewogICAgcmVuZGVyKAogICAgICA8TWVtb3J5Um91dGVyPgogICAgICAgIDxNYWluUGFnZSAvPgogICAgICA8L01lbW9yeVJvdXRlcj4KICAgICkKCiAgICBleHBlY3Qoc2NyZWVuLmdldEJ5Um9sZSgnbGluaycsIHsgbmFtZTogL0tvbXBvc3QvIH0pKS50b0hhdmVBdHRyaWJ1dGUoJ2hyZWYnLCAvcGF0Y2hlcy8xNSkKICAgIGV4cGVjdChzY3JlZW4uZ2V0QnlSb2xlKCdsaW5rJywgeyBuYW1lOiAvS3LDpHRlci8gfSkpLnRvSGF2ZUF0dHJpYnV0ZSgnaHJlZicsICcvcGF0Y2hlcy8xNicpCiAgICBleHBlY3Qoc2NyZWVuLmdldEJ5Um9sZSgnbGluaycsIHsgbmFtZTogL0JlZXJlbl8pfSkudG9IYXZlQXR0cmlidXRlKCdocmVmJywgJy9wYXRjaGVzLzE3JykKICB9KQoKICBpdCgncmVuZGVycyBzdG9yYWdlIHVuaXRzIChTY2h1cHBlbiwgS2lzdGUpIGFzIGxpbmtzIHRvIC9zdG9yYWdlLzppZCcsICgpID0+IHsKICAgIHJlbmRlcigKICAgICAgPE1lbW9yeVJvdXRlcj4KICAgICAgICA8TWFpblBhZ2UgLz4KICAgICAgPC9NZW1vcnlSb3V0ZXI+CiAgICApCgogICAgZXhwZWN0KHNjcmVlbi5nZXRCeVJvbGUoJ2xpbmsnLCB7IG5hbWU6ICdLaXN0ZScgfSkpLnRvSGF2ZUF0dHJpYnV0ZSgnaHJlZicsICcvc3RvcmFnZS9raXN0ZScpCiAgICBleHBlY3Qoc2NyZWVuLmdldEJ5Um9sZSgnbGluaycsIHsgbmFtZTogJ1NjaHVwcGVuJyB9KS50b0hhdmVBdHRyaWJ1dGUoJ2hyZWYnLCAnL3N0b3JhZ2Uvc2NodXBwZW4nKQogIH0pCgogIGl0KCdyZW5kZXJzIGV2ZXJ5IGRlZmF1bHQgYmVkIHdpdGggdGhlIHNhbWUgdW5pZm9ybSBzb2lsIGJhY2tncm91bmQnLCAoKSA9PiB7CiAgICAvLyBWaXN1YWwgY29udHJhY3Q6IHRoZSBsYXduIGlzIHRoZSB2aXN1YWwgY2FycmllciwgYmVkcyBhcmUgdW5pZm9ybQogICAgLy8gc29pbCB0aWxlcywgYW5kIHRoZSAqY29udGVudHMqIHBsYW50IGljb25zICsgbmFtZXMgdGVsbCBlYWNoCiAgICAvLyBiZWQgYXBhcnQuIFNvIG5vIGRlZmF1bHQgYmVkIHNob3VsZCBjYXJyeSBhIHBlci1wbGFudCBhY2NlbnQKICAgIC8vIHRpbnQg4oCbb25jZSBhY2NlbnRzLsKICAgIHJlbmRlcigKICAgICAgPE1lbW9yeVJvdXRlcj4KICAgICAgICA8TWFpblBhZ2UgLz4KICAgICAgPC9NZW1vcnlSb3V0ZXI+CiAgICApCiAgICBjb25zdCBrdWVyYmlzQmVkID0gc2NyZWVuLmdldEJ5Um9sZSgnbGluaycsIHsgbmFtZTogL0JlZXQgMTEvIH0pCiAgICBjb25zdCB0b21hdGVuQmVkID0gc2NyZWVuLmdldEJ5Um9sZSgnbGluaycsIHsgbmFtZTogL0JlZXQgMTMvIH0pCgovLyBCb3RoIGRlZmF1bHQgYmVkcyB1c2UgdGhlIHNvaWwgYmFja2dyb3VuZC4uLgogiDvc29pbEJhY2tnLc==
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { describe, it, expect } from 'vitest'
+import MainPage from './pages/MainPage'
+import DetailPage from './pages/DetailPage'
+import PlantDetailPage from './pages/PlantDetailPage'
+
+describe('MainPage', () => {
+  it('renders a tile for every patch as a link to its detail page', () => {
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+
+    // Each numbered patch (1–14) is rendered as a clickable link.
+    for (let n = 1; n <= 14; n += 1) {
+      const link = screen.getByRole('link', { name: new RegExp(`Beet ${n}\\b`) })
+      expect(link).toHaveAttribute('href', `/patches/${n}`)
+    }
+  })
+
+  it('renders the special-variant patches Kompost, Kräuter and Himbeeren as links', () => {
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('link', { name: /Kompost/ })).toHaveAttribute('href', '/patches/15')
+    expect(screen.getByRole('link', { name: /Kräuter/ })).toHaveAttribute('href', '/patches/16')
+    expect(screen.getByRole('link', { name: /Beeren/ })).toHaveAttribute('href', '/patches/17')
+  })
+
+  it('renders storage units (Schuppen, Kiste) as links to /storage/:id', () => {
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('link', { name: 'Kiste' })).toHaveAttribute('href', '/storage/kiste')
+    expect(screen.getByRole('link', { name: 'Schuppen' })).toHaveAttribute(
+      'href',
+      '/storage/schuppen'
+    )
+  })
+
+  it('renders every default bed with the same uniform soil background', () => {
+    // Visual contract: the lawn is the visual carrier, beds are uniform
+    // soil tiles, and the *contents* (plant icons + names) tell each
+    // bed apart. So no default bed should carry a per-plant accent
+    // tint — they all share `bg-patch`.
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+    const kuerbisBed = screen.getByRole('link', { name: /Beet 11/ })
+    const tomatenBed = screen.getByRole('link', { name: /Beet 13/ })
+
+    // Both default beds use the soil background…
+    expect(kuerbisBed.className).toMatch(/bg-patch\b/)
+    expect(tomatenBed.className).toMatch(/bg-patch\b/)
+    // …and neither carries a per-plant accent tint anymore.
+    expect(kuerbisBed.className).not.toMatch(/accent-/)
+    expect(tomatenBed.className).not.toMatch(/accent-/)
+  })
+
+  it('shows the plant icon next to its name when one is defined', () => {
+    // Beet 11 = Kürbis (icon: 🎃)
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+    const kuerbisBed = screen.getByRole('link', { name: /Beet 11/ })
+    expect(kuerbisBed.textContent).toContain('🎃')
+    expect(kuerbisBed.textContent).toContain('Kürbis')
+  })
+})
+
+describe('DetailPage', () => {
+  function renderAt(path: string) {
+    return render(
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          <Route path="/patches/:number" element={<DetailPage />} />
+        </Routes>
+      </MemoryRouter>
+    )
+  }
+
+  it('shows the patch label as the heading for /patches/7', () => {
+    renderAt('/patches/7')
+    expect(screen.getByRole('heading', { level: 1, name: 'Beet 7' })).toBeInTheDocument()
+  })
+
+  it('lists each planted plant as a link to its plant detail page', () => {
+    renderAt('/patches/7')
+    expect(screen.getByRole('link', { name: /Rucola Details/ })).toHaveAttribute(
+      'href',
+      '/plants/rucola'
+    )
+    expect(screen.getByRole('link', { name: /Radieschen Details/ })).toHaveAttribute(
+      'href',
+      '/plants/radieschen'
+    )
+    expect(screen.getByRole('link', { name: /Edamame Details/ })).toHaveAttribute(
+      'href',
+      '/plants/edamame'
+    )
+  })
+
+  it('shows the plant count badge', () => {
+    renderAt('/patches/7')
+    expect(screen.getByText(/^3 Pflanzen$/)).toBeInTheDocument()
+  })
+
+  it('renders a back link to the main page', () => {
+    renderAt('/patches/7')
+    const backLink = screen.getByRole('link', { name: /Garten/ })
+    expect(backLink).toHaveAttribute('href', '/')
+  })
+
+  it('renders the Saison-Plan section with month headers', () => {
+    renderAt('/patches/7')
+    expect(screen.getByText(/Saison-Plan/i)).toBeInTheDocument()
+    expect(screen.getByText('MÄR')).toBeInTheDocument()
+    expect(screen.getByText('NOV')).toBeInTheDocument()
+  })
+
+  it('shows a not-found fallback for unknown patch numbers', () => {
+    renderAt('/patches/999')
+    expect(
+      screen.getByRole('heading', { level: 1, name: /nicht gefunden/i })
+    ).toBeInTheDocument()
+  })
+})
+
+describe('PlantDetailPage', () => {
+  function renderAt(path: string, state?: unknown) {
+    return render(
+      <MemoryRouter initialEntries={[{ pathname: path, state }]}>
+        <Routes>
+          <Route path="/plants/:id" element={<PlantDetailPage />} />
+        </Routes>
+      </MemoryRouter>
+    )
+  }
+
+  it('shows the plant name as the heading', () => {
+    renderAt('/plants/rucola')
+    expect(screen.getByRole('heading', { level: 1, name: 'Rucola' })).toBeInTheDocument()
+  })
+
+  it('shows row spacing and plant spacing values', () => {
+    renderAt('/plants/rucola')
+    expect(screen.getByText('Reihenabstand')).toBeInTheDocument()
+    expect(screen.getByText('Pflanzabstand')).toBeInTheDocument()
+    // Rucola: rowSpacing 20cm, plantSpacing 1cm (from 2026 plan).
+    expect(screen.getByText('20 cm')).toBeInTheDocument()
+    expect(screen.getByText('1 cm')).toBeInTheDocument()
+  })
+
+  it('lists good and bad companions as links to their plant pages', () => {
+    renderAt('/plants/rucola')
+    // Rucola goodCompanions include 'salat'.
+    const salat = screen.getByRole('link', { name: 'Salat' })
+    expect(salat).toHaveAttribute('href', '/plants/salat')
+    // Rucola badCompanions include 'weisskohl'.
+    const weisskohl = screen.getByRole('link', { name: 'Weißkohl' })
+    expect(weisskohl).toHaveAttribute('href', '/plants/weisskohl')
+  })
+
+  it('shows the Besonderheiten section', () => {
+    renderAt('/plants/rucola')
+    expect(screen.getByText('Besonderheiten')).toBeInTheDocument()
+  })
+
+  it('back link returns to the originating patch when navigated from one', () => {
+    renderAt('/plants/rucola', { fromPatchNumber: 7 })
+    const back = screen.getByRole('link', { name: /Beet 7/ })
+    expect(back).toHaveAttribute('href', '/patches/7')
+  })
+
+  it('back link returns to the garden when no origin is given', () => {
+    renderAt('/plants/rucola')
+    const back = screen.getByRole('link', { name: /Garten/ })
+    expect(back).toHaveAttribute('href', '/')
+  })
+
+  it('shows a not-found fallback for unknown plant ids', () => {
+    renderAt('/plants/does-not-exist')
+    expect(
+      screen.getByRole('heading', { level: 1, name: /nicht gefunden/i })
+    ).toBeInTheDocument()
+  })
+})
